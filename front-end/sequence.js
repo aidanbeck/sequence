@@ -9,16 +9,26 @@ class Cell {
 
 class Grid {
     constructor(rows, columns) {
-        this.grid = [];
+        this.grid = initializeGrid(rows, columns);
 
-        for (let i = 0; i < columns; i++) {
-            this.grid[i] = [];
-            for (let j = 0; j < rows; j++) {
-                this.grid[i][j] = new Cell();
-            }
-        }
+        // let obstacles = 2; // number of obstacles to generate
+        // generateObstacles(obstacles);
+
+        // this.start = randomCell();
+        // this.end = randomCell();
 
         this.printCells();
+    }
+
+    initializeGrid(rows, columns) {
+        let grid = [];
+        for (let i = 0; i < columns; i++) {
+            grid[i] = [];
+            for (let j = 0; j < rows; j++) {
+                grid[i][j] = new Cell();
+            }
+        }
+        return grid;
     }
 
     printCells() {
