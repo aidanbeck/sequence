@@ -32,14 +32,16 @@ class Grid {
     spawnObstacles(obstacleCount) {
         for (let i = 0; i < obstacleCount; i++) {
             let cellIndex;
-            let isObstructed;
             do {
                 cellIndex = this.randomCellIndex();
-                isObstructed = this.grid[cellIndex.row][cellIndex.column].obstructed;
-            } while (isObstructed);
-            
+            } while (this.isObstructed(cellIndex.row, cellIndex.column));
+
             this.grid[cellIndex.row][cellIndex.column].obstructed = true;
         }
+    }
+
+    isObstructed(row, column) {
+        return this.grid[row][column].obstructed;
     }
 
     randomCellIndex() {
