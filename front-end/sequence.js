@@ -1,3 +1,29 @@
+class Operators {
+    constructor(operators = ['+', '*', '/'], startingScore = 0) {
+
+        this.operators = operators;
+
+        this.selectedOperatorIndex = 0;
+        this.selectedOperator = this.operators[this.selectedOperatorIndex];
+
+        this.score = startingScore;
+        this.scoreHistory = [];
+    }
+
+    operate(score, cell, symbol) {
+        switch (this.symbol) {
+            case '+':
+                return score + cell.number;
+            case '-':
+                return score - cell.number;
+            case '*':
+                return score * cell.number;
+            case '/':
+                return score / cell.number;
+        }
+    }
+    
+}
 
 class Cell {
     constructor() {
