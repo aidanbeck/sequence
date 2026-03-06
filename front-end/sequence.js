@@ -8,11 +8,16 @@ class Cell {
 }
 
 class Grid {
-    constructor(rows, columns, obstacleCount) {
+    constructor(rows, columns, obstacleCount = Math.floor( Math.random() * 4)) {
         this.grid = this.initializeGrid(rows, columns);
         this.spawnObstacles(obstacleCount); // may add an obstacleChance -> obstacleCount step.
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
+
+        this.selectedIndex = {
+            row: this.startIndex.row,
+            column: this.startIndex.column
+        }
 
         this.printCells();
     }
@@ -93,10 +98,10 @@ class Grid {
                     number = "X";
                 }
                 if (i === this.startIndex.row && j === this.startIndex.column) {
-                    number = "S";
+                    number = ".";
                 }
                 if (i === this.endIndex.row && j === this.endIndex.column) {
-                    number = "E";
+                    number = "?";
                 }
 
                 rowString += `${number}  `;
