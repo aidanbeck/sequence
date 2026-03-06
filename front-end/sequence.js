@@ -46,6 +46,9 @@ class Grid {
         }
 
         this.printCells();
+
+        let gridDiv = document.getElementById("grid");
+        gridDiv.appendChild(this.generateTable());
     }
 
     initializeGrid(rows, columns) {
@@ -112,6 +115,29 @@ class Grid {
         }
     }
 
+    generateTable() {
+        let table = document.createElement("table");
+        for (let i = 0; i < this.grid.length; i++) {
+            let row = document.createElement("tr");
+            for (let j = 0; j < this.grid[i].length; j++) {
+                let cell = document.createElement("td");
+                cell.innerText = this.grid[i][j].number;
+                if (this.grid[i][j].obstructed) {
+                    cell.classList.add("obstructed");
+                }
+                if (i === this.startIndex.row && j === this.startIndex.column) {
+                    cell.classList.add("start");
+                }
+                if (i === this.endIndex.row && j === this.endIndex.column) {
+                    cell.classList.add("end");
+                }
+                row.appendChild(cell);
+            }
+            table.appendChild(row);
+        }
+        return table;
+    }
+
     printCells() {
 
         for (let i = 0; i < this.grid.length; i++) {
@@ -136,3 +162,5 @@ class Grid {
         }
     }
 }
+
+new Grid(4, 6, 3);
