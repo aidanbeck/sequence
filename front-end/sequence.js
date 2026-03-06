@@ -1,7 +1,7 @@
 
 class Cell {
     constructor() {
-        this.number = Math.floor( Math.random() * 10);
+        this.number = Math.floor( Math.random() * 9) + 1; // generate random integer between 1 and 9
         this.moveDirection = null;
         this.start = false;
         this.obstructed = false;
