@@ -61,9 +61,9 @@ class Grid {
         }
 
         // Visualization
-        let gridDiv = document.getElementById("grid");
-        gridDiv.appendChild(this.generateTable());
-        this.printCells();
+        let table = this.generateTable();
+        document.getElementById("grid").appendChild(table);
+        // this.printCells();
     }
 
     initializeGrid(rows, columns) {
