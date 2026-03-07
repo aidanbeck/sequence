@@ -47,20 +47,23 @@ class Cell {
 
 class Grid {
     constructor(rows, columns, obstacleCount = Math.floor( Math.random() * 4)) {
-        this.grid = this.initializeGrid(rows, columns);
+        
+        // Generation
+        this.cells = this.initializeGrid(rows, columns);
         this.spawnObstacles(obstacleCount); // may add an obstacleChance -> obstacleCount step.
+
+        // Indexes
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
-
         this.selectedIndex = {
             row: this.startIndex.row,
             column: this.startIndex.column
         }
 
-        this.printCells();
-
+        // Visualization
         let gridDiv = document.getElementById("grid");
         gridDiv.appendChild(this.generateTable());
+        this.printCells();
     }
 
     initializeGrid(rows, columns) {
@@ -81,7 +84,7 @@ class Grid {
                 cellIndex = this.randomCellIndex();
             } while (this.isObstructed(cellIndex.row, cellIndex.column));
 
-            this.grid[cellIndex.row][cellIndex.column].obstructed = true;
+            this.cells[cellIndex.row][cellIndex.column].obstructed = true;
         }
     }
 
@@ -99,6 +102,7 @@ class Grid {
 
         const MAX_DISTANCE = 2;
 
+        let startIndex = this.startIndex;
         let endIndex;
         let startEndDistance;
         do {
@@ -106,7 +110,7 @@ class Grid {
 
             startEndDistance = Math.sqrt( 
                 Math.pow(
-                    endIndex.row - this.startIndex.row, 2) + Math.pow(endIndex.column - this.startIndex.column,
+                    endIndex.row - startIndex.row, 2) + Math.pow(endIndex.column - startIndex.column,
                     2
                 )
             );
@@ -117,48 +121,66 @@ class Grid {
     }
 
     isObstructed(row, column) {
-        return this.grid[row][column].obstructed;
+        return this.cells[row][column].obstructed;
     }
 
     randomCellIndex() {
         return {
-            row: Math.floor( Math.random() * this.grid.length),
-            column: Math.floor( Math.random() * this.grid[0].length)
+            row: Math.floor( Math.random() * this.cells.length),
+            column: Math.floor( Math.random() * this.cells[0].length)
         }
     }
 
     generateTable() {
-        let table = document.createElement("table");
-        for (let i = 0; i < this.grid.length; i++) {
-            let row = document.createElement("tr");
-            for (let j = 0; j < this.grid[i].length; j++) {
-                let cell = document.createElement("td");
-                cell.innerText = this.grid[i][j].number;
-                if (this.grid[i][j].obstructed) {
-                    cell.classList.add("obstructed");
+
+        let cells = this.cells;
+        let tableElement = document.createElement("table");
+
+        for (let i = 0; i < cells.length; i++) {
+
+            let rowElement = document.createElement("tr");
+
+            for (let j = 0; j < cells[i].length; j++) {
+
+                let cellElement = document.createElement("td");
+                cellElement.innerText = cells[i][j].number;
+
+                // Obstructed Styling
+                if (cells[i][j].obstructed) {
+                    cellElement.classList.add("obstructed");
                 }
+                
+                // Starting Square Styling
                 if (i === this.startIndex.row && j === this.startIndex.column) {
-                    cell.classList.add("start");
+                    cellElement.classList.add("start");
                 }
+
+                //Ending Square Styling
                 if (i === this.endIndex.row && j === this.endIndex.column) {
-                    cell.classList.add("end");
+                    cellElement.classList.add("end");
                 }
-                row.appendChild(cell);
+                
+                rowElement.appendChild(cellElement);
+
             }
-            table.appendChild(row);
+
+            tableElement.appendChild(rowElement);
         }
-        return table;
+
+        return tableElement;
     }
 
     printCells() {
 
-        for (let i = 0; i < this.grid.length; i++) {
+        let cells = this.cells;
+
+        for (let i = 0; i < cells.length; i++) {
             let rowString = "";
-            for (let j = 0; j < this.grid[i].length; j++) {
-                let number = this.grid[i][j].number;
+            for (let j = 0; j < cells[i].length; j++) {
+                let number = cells[i][j].number;
 
                 // should be switch case
-                if (this.grid[i][j].obstructed) {
+                if (cells[i][j].obstructed) {
                     number = "X";
                 }
                 if (i === this.startIndex.row && j === this.startIndex.column) {
