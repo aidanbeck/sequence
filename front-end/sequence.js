@@ -1,25 +1,38 @@
-class Operators {
+class OperatorQueue {
     constructor(operators = ['+', '*', '/'], startingScore = 0) {
 
         this.operators = operators;
-
-        this.selectedOperatorIndex = 0;
-        this.selectedOperator = this.operators[this.selectedOperatorIndex];
-
-        this.score = startingScore;
-        this.scoreHistory = [];
+        this.selectedIndex = 0;
     }
 
-    operate(score, cell, symbol) {
-        switch (this.symbol) {
+    getSelectedOperator() {
+        return this.operators[this.selectedIndex];
+    }
+
+    selectNextOperator() {
+        this.selectedIndex++;
+        if (this.selectedIndex >= this.operators.length) {
+            this.selectedIndex = 0;
+        }
+    }
+
+    selectOperator(index) {
+        this.selectedOperator = index;
+    }
+
+    operate(score, number) {
+
+        let symbol = this.getSelectedOperator();
+
+        switch (symbol) {
             case '+':
-                return score + cell.number;
+                return score + number;
             case '-':
-                return score - cell.number;
+                return score - number;
             case '*':
-                return score * cell.number;
+                return score * number;
             case '/':
-                return score / cell.number;
+                return score / number;
         }
     }
     
@@ -28,7 +41,6 @@ class Operators {
 class Cell {
     constructor() {
         this.number = Math.floor( Math.random() * 9) + 1; // generate random integer between 1 and 9
-        this.moveDirection = null;
         this.obstructed = false;
     }
 }
@@ -163,4 +175,4 @@ class Grid {
     }
 }
 
-new Grid(4, 6, 3);
+new Grid(4, 6, 2);
