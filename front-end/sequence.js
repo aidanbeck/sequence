@@ -1,5 +1,5 @@
 class OperatorQueue {
-    constructor(operators = ['+', '*', '/'], startingScore = 0) {
+    constructor(operators = ['+', '*', '/']) {
 
         this.operators = operators;
         this.selectedIndex = 0;
@@ -55,10 +55,6 @@ class Grid {
         // Indexes
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
-        this.selectedIndex = {
-            row: this.startIndex.row,
-            column: this.startIndex.column
-        }
 
         // Visualization
         let table = this.generateTable();
@@ -197,4 +193,52 @@ class Grid {
     }
 }
 
-new Grid(4, 6, 2);
+class Move {
+    constructor(row, column, operatorQueueIndex, score) {
+        this.row = row;
+        this.column = column;
+        this.operatorQueueIndex = operatorQueueIndex;
+        this.score = score;
+    }
+    // Ability to create a new move from a current move, new cell, and operation? MoveHistory would need to validate it against existing moves before or after.
+}
+
+class MoveHistory {
+    constructor(grid, operatorQueue) {
+        this.grid = grid;
+        this.operatorQueue = operatorQueue;
+
+        this.moves = []
+        this.makeMove(grid.startIndex.row, grid.startIndex.column);
+    }
+
+    makeMove(row, column) {
+        
+        // validate move
+        for (let move of this.moves) {
+            if (move.row == row && move.column == column) {
+                throw Error(`Move already exists at row: ${row}, column: ${column}!`);
+            }
+        }
+
+        let currentMove;
+        if (this.moves.length > 0) {
+            currentMove= this.moves[this.moves.length - 1];
+        } else { // This is the first move! Set the starting score to the number of the starting cell.
+            currentMove = new Move(0, 0, 0, this.grid.cells[this.grid.startIndex.row][this.grid.startIndex.column].number);
+        }
+        
+        const newCellNumber = this.grid.cells[row][column].number;
+        const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber);
+        console.log(currentMove);
+        const newOperatorIndex = this.operatorQueue.selectedIndex + 1;
+
+        let newMove = new Move(row, column, newOperatorIndex, newScore);
+        this.moves.push(newMove)
+    }
+}
+
+// Default Grid Generation
+let GAME_GRID = new Grid(4, 6, 2);
+let GAME_OPERATORS = new OperatorQueue();
+let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
