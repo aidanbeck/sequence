@@ -116,15 +116,19 @@ class Grid {
         return endIndex;
     }
 
-    isObstructed(row, column) {
-        return this.cells[row][column].obstructed;
-    }
-
     randomCellIndex() {
         return {
             row: Math.floor( Math.random() * this.cells.length),
             column: Math.floor( Math.random() * this.cells[0].length)
         }
+    }
+
+    getCell(row, column) {
+        return this.cells[row][column];
+    }
+
+    isObstructed(row, column) {
+        return this.getCell(row, column).obstructed;
     }
 
     generateTable() {
@@ -234,10 +238,10 @@ class MoveHistory {
         if (this.moves.length > 0) {
             currentMove= this.moves[this.moves.length - 1];
         } else { // This is the first move! Set the starting score to the number of the starting cell.
-            currentMove = new Move(0, 0, 0, this.grid.cells[this.grid.startIndex.row][this.grid.startIndex.column].number);
+            currentMove = new Move(0, 0, 0, this.grid.getCell(this.grid.startIndex.row, this.grid.startIndex.column).number);
         }
         
-        const newCellNumber = this.grid.cells[row][column].number;
+        const newCellNumber = this.grid.getCell(row, column).number;
         const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber);
         console.log(currentMove);
         const newOperatorIndex = this.operatorQueue.selectedIndex + 1;
