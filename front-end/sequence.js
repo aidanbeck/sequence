@@ -200,16 +200,25 @@ class Move {
         this.operatorQueueIndex = operatorQueueIndex;
         this.score = score;
     }
-    // Ability to create a new move from a current move, new cell, and operation? MoveHistory would need to validate it against existing moves before or after.
 }
 
 class MoveHistory {
+
     constructor(grid, operatorQueue) {
         this.grid = grid;
         this.operatorQueue = operatorQueue;
 
         this.moves = []
         this.makeMove(grid.startIndex.row, grid.startIndex.column);
+    }
+
+    getLatestMove() {
+
+        if (this.moves.length < 1) {
+            throw Error("Cannot return latest Move as there are none.");
+        }
+
+        return this.moves[this.moves.length - 1];
     }
 
     makeMove(row, column) {
