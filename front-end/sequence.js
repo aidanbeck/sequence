@@ -213,7 +213,7 @@ class MoveHistory {
         this.operatorQueue = operatorQueue;
 
         this.moves = []
-        this.makeMove(grid.startIndex.row, grid.startIndex.column);
+        this.makeInitialMove();
     }
 
     getLatestMove() {
@@ -225,16 +225,20 @@ class MoveHistory {
         return this.moves[this.moves.length - 1];
     }
 
+    makeInitialMove() {
+        let startIndex = this.grid.startIndex;
+        let startCell = this.grid.getCell(startIndex.row, startIndex.column);
+        let startScore = startCell.number;
+        let initialMove = new Move(startIndex.row, startIndex.column, 0, startScore);
+
+        this.moves.push(initialMove);
+    }
+
     makeMove(row, column) {
 
         if (!this.validateMove(row, column)) { return; }
 
-        let currentMove;
-        if (this.moves.length > 0) {
-            currentMove= this.moves[this.moves.length - 1];
-        } else { // This is the first move! Set the starting score to the number of the starting cell.
-            currentMove = new Move(0, 0, 0, this.grid.getCell(this.grid.startIndex.row, this.grid.startIndex.column).number);
-        }
+        let currentMove = this.moves[this.moves.length - 1];
         
         const newCellNumber = this.grid.getCell(row, column).number;
         const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber);
