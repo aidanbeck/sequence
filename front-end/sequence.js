@@ -2,28 +2,23 @@ class OperatorQueue {
     constructor(operators = ['+', '*', '/']) {
 
         this.operators = operators;
-        this.selectedIndex = 0;
     }
 
-    getSelectedOperator() {
-        return this.operators[this.selectedIndex];
+    getOperator(operatorIndex) {
+        return this.operators[operatorIndex];
     }
 
-    selectNextOperator() {
-        this.selectedIndex++;
-        if (this.selectedIndex >= this.operators.length) {
-            this.selectedIndex = 0;
+    getNextIndex(operatorIndex) {
+        operatorIndex++;
+        if (operatorIndex >= this.operators.length) {
+            operatorIndex = 0;
         }
-        return this.selectedIndex;
+        return operatorIndex;
     }
 
-    selectOperator(index) {
-        this.selectedOperator = index;
-    }
+    operate(score, number, operatorIndex) {
 
-    operate(score, number) {
-
-        let symbol = this.getSelectedOperator();
+        let symbol = this.getOperator(operatorIndex);
 
         switch (symbol) {
             case '+':
@@ -199,10 +194,10 @@ class Grid {
 }
 
 class Move {
-    constructor(row, column, operatorQueueIndex, score) {
+    constructor(row, column, operatorIndex, score) {
         this.row = row;
         this.column = column;
-        this.operatorQueueIndex = operatorQueueIndex;
+        this.operatorIndex = operatorIndex;
         this.score = score;
     }
 }
@@ -242,8 +237,8 @@ class MoveHistory {
         const currentMove = this.getLatestMove();
         const newCellNumber = this.grid.getCell(row, column).number;
 
-        const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber);
-        const newOperatorIndex = this.operatorQueue.selectNextOperator();
+        const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber, currentMove.operatorIndex);
+        const newOperatorIndex = this.operatorQueue.getNextIndex(currentMove.operatorIndex);
 
         let newMove = new Move(row, column, newOperatorIndex, newScore);
         this.moves.push(newMove)
@@ -251,7 +246,7 @@ class MoveHistory {
     }
 
     printMove(move) {
-        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${this.operatorQueue.operators[move.operatorQueueIndex]}`);
+        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${this.operatorQueue.operators[move.operatorIndex]}`);
     }
 
     validateMove(row, column) {
