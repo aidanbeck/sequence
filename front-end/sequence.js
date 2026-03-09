@@ -49,7 +49,7 @@ class Grid {
     constructor(rows, columns, obstacleCount = Math.floor( Math.random() * 4)) {
         
         // Generation
-        this.cells = this.initializeGrid(rows, columns);
+        this.cells = this.initializeCells(rows, columns);
         this.spawnObstacles(obstacleCount); // may add an obstacleChance -> obstacleCount step.
 
         // Indexes
@@ -66,15 +66,15 @@ class Grid {
         // this.printCells();
     }
 
-    initializeGrid(rows, columns) {
-        let grid = [];
+    initializeCells(rows, columns) {
+        let cells = [];
         for (let i = 0; i < columns; i++) {
-            grid[i] = [];
+            cells[i] = [];
             for (let j = 0; j < rows; j++) {
-                grid[i][j] = new Cell();
+                cells[i][j] = new Cell();
             }
         }
-        return grid;
+        return cells;
     }
 
     spawnObstacles(obstacleCount) {
