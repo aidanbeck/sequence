@@ -14,6 +14,7 @@ class OperatorQueue {
         if (this.selectedIndex >= this.operators.length) {
             this.selectedIndex = 0;
         }
+        return this.selectedIndex;
     }
 
     selectOperator(index) {
@@ -238,15 +239,19 @@ class MoveHistory {
 
         if (!this.validateMove(row, column)) { return; }
 
-        let currentMove = this.moves[this.moves.length - 1];
-        
+        const currentMove = this.getLatestMove();
         const newCellNumber = this.grid.getCell(row, column).number;
+
         const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber);
-        console.log(currentMove);
-        const newOperatorIndex = this.operatorQueue.selectedIndex + 1;
+        const newOperatorIndex = this.operatorQueue.selectNextOperator();
 
         let newMove = new Move(row, column, newOperatorIndex, newScore);
         this.moves.push(newMove)
+        this.printMove(newMove);
+    }
+
+    printMove(move) {
+        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${this.operatorQueue.operators[move.operatorQueueIndex]}`);
     }
 
     validateMove(row, column) {
@@ -260,6 +265,7 @@ class MoveHistory {
 
         // Check that move is in bounds
         // Check that move is adjacent to the latest move
+        // Check that move is not obstructed
 
         return true;
     }
