@@ -226,13 +226,8 @@ class MoveHistory {
     }
 
     makeMove(row, column) {
-        
-        // validate move
-        for (let move of this.moves) {
-            if (move.row == row && move.column == column) {
-                throw Error(`Move already exists at row: ${row}, column: ${column}!`);
-            }
-        }
+
+        if (!this.validateMove(row, column)) { return; }
 
         let currentMove;
         if (this.moves.length > 0) {
@@ -248,6 +243,21 @@ class MoveHistory {
 
         let newMove = new Move(row, column, newOperatorIndex, newScore);
         this.moves.push(newMove)
+    }
+
+    validateMove(row, column) {
+
+        // Check that move does not already exist at this index.
+        for (let move of this.moves) {
+            if (move.row == row && move.column == column) {
+                throw Error(`Move already exists at row: ${row}, column: ${column}!`);
+            }
+        }
+
+        // Check that move is in bounds
+        // Check that move is adjacent to the latest move
+
+        return true;
     }
 }
 
