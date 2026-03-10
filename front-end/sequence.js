@@ -17,15 +17,35 @@ function selectCell() {
     const column = this.id.split("|")[1];
 
     // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
+    // TODO (bug): if move is the origin move, it does not reset
 
     //does move already exist?
     if (GAME_MOVES.findMove(row, column) != null) {
         GAME_MOVES.revertToMove(row, column);
+        resetCells();
+        colorMovedCells();
     } else {
         GAME_MOVES.makeMove(row, column);
     }
 
     this.classList.add("moved");
+}
+
+function resetCells() {
+    const cellElements = document.getElementsByTagName("td");
+
+    for (let element of cellElements) {
+        element.classList.remove("moved");
+    }
+}
+
+function colorMovedCells() {
+
+    for (let move of GAME_MOVES.moves) {
+        let element = document.getElementById(`${move.row}|${move.column}`);
+        element.classList.add("moved");
+    }
+
 }
 
 function generateGridTable(grid) {

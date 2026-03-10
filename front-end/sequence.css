@@ -11,6 +11,10 @@ td {
     font-size: 24px;
 }
 
+.moved {
+    background-color: blue;
+}
+
 .obstructed {
     background-color: black;
 }
@@ -21,8 +25,4 @@ td {
 
 .start {
     background-color: red;
-}
-
-.moved {
-    background-color: blue;
 }
