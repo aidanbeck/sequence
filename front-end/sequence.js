@@ -7,6 +7,57 @@ let GAME_OPERATORS = new OperatorQueue();
 let GAME_GRID = new Grid(4, 6, 2);
 let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 
+// Build HTML Game Board
+let table = generateGridTable(GAME_GRID);
+document.getElementById("grid").appendChild(table);
+
+function selectCell() {
+    this.classList.add("moved");
+    GAME_MOVES.makeMove(this.row, this.column);
+}
+
+function generateGridTable(grid) {
+
+    let cells = grid.cells;
+    let tableElement = document.createElement("table");
+    
+    for (let i = 0; i < cells.length; i++) {
+
+        let rowElement = document.createElement("tr");
+
+        for (let j = 0; j < cells[i].length; j++) {
+
+            let cellElement = document.createElement("td");
+            cellElement.innerText = cells[i][j].number;
+
+            // Obstructed Styling
+            if (cells[i][j].obstructed) {
+                cellElement.classList.add("obstructed");
+            }
+                
+            // Starting Square Styling
+            if (i === grid.startIndex.row && j === grid.startIndex.column) {
+                cellElement.classList.add("start");
+            }
+
+            //Ending Square Styling
+            if (i === grid.endIndex.row && j === grid.endIndex.column) {
+                cellElement.classList.add("end");
+            }
+            cellElement.row = i;
+            cellElement.column = j;
+            cellElement.addEventListener('click', selectCell);
+            rowElement.appendChild(cellElement);
+
+        }
+
+        tableElement.appendChild(rowElement);
+    }
+
+    return tableElement;
+}
+
+
 globalThis.GAME_MOVES = GAME_MOVES; // allow developer console to interact with game state.
 
 /*

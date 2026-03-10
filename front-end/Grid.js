@@ -15,11 +15,6 @@ export default class Grid {
         // Indexes
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
-
-        // Visualization
-        let table = this.generateTable();
-        document.getElementById("grid").appendChild(table);
-        // this.printCells();
     }
 
     initializeCells(rows, columns) {
@@ -89,45 +84,6 @@ export default class Grid {
 
     isObstructed(row, column) {
         return this.getCell(row, column).obstructed;
-    }
-
-    generateTable() {
-
-        let cells = this.cells;
-        let tableElement = document.createElement("table");
-
-        for (let i = 0; i < cells.length; i++) {
-
-            let rowElement = document.createElement("tr");
-
-            for (let j = 0; j < cells[i].length; j++) {
-
-                let cellElement = document.createElement("td");
-                cellElement.innerText = cells[i][j].number;
-
-                // Obstructed Styling
-                if (cells[i][j].obstructed) {
-                    cellElement.classList.add("obstructed");
-                }
-                
-                // Starting Square Styling
-                if (i === this.startIndex.row && j === this.startIndex.column) {
-                    cellElement.classList.add("start");
-                }
-
-                //Ending Square Styling
-                if (i === this.endIndex.row && j === this.endIndex.column) {
-                    cellElement.classList.add("end");
-                }
-                
-                rowElement.appendChild(cellElement);
-
-            }
-
-            tableElement.appendChild(rowElement);
-        }
-
-        return tableElement;
     }
 
     printCells() {

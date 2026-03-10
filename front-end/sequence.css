@@ -22,3 +22,7 @@ td {
 .start {
     background-color: red;
 }
+
+.moved {
+    background-color: blue;
+}
