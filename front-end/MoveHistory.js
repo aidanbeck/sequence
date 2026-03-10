@@ -83,7 +83,8 @@ export default class MoveHistory {
 
         let move = this.findMove(row, column);
         if (move != null) {
-            const index = this.moves.indexOf(move)
+            let index = this.moves.indexOf(move)
+            if (index == 0) { index++; } // don't remove the first move
             this.moves.splice(index);
         }
 
