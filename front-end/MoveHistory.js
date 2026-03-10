@@ -84,8 +84,10 @@ export default class MoveHistory {
         let move = this.findMove(row, column);
         if (move != null) {
             const index = this.moves.indexOf(move)
-            this.moves.splice(index + 1);
+            this.moves.splice(index);
         }
+
+        this.makeMove(row, column); // make move on this spot again (useful for triggering thins like printMove)
 
         return move;
         // TODO: Throw error if no moves match

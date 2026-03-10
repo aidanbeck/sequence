@@ -12,8 +12,20 @@ let table = generateGridTable(GAME_GRID);
 document.getElementById("grid").appendChild(table);
 
 function selectCell() {
+
+    const row = this.id.split("|")[0];
+    const column = this.id.split("|")[1];
+
+    // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
+
+    //does move already exist?
+    if (GAME_MOVES.findMove(row, column) != null) {
+        GAME_MOVES.revertToMove(row, column);
+    } else {
+        GAME_MOVES.makeMove(row, column);
+    }
+
     this.classList.add("moved");
-    GAME_MOVES.makeMove(this.row, this.column);
 }
 
 function generateGridTable(grid) {
@@ -44,8 +56,7 @@ function generateGridTable(grid) {
             if (i === grid.endIndex.row && j === grid.endIndex.column) {
                 cellElement.classList.add("end");
             }
-            cellElement.row = i;
-            cellElement.column = j;
+            cellElement.id = `${i}|${j}`;
             cellElement.addEventListener('click', selectCell);
             rowElement.appendChild(cellElement);
 
