@@ -35,10 +35,9 @@ export default class MoveHistory {
     validateMove(row, column) {
 
         // Check that move does not already exist at this index.
-        for (let move of this.moves) {
-            if (move.row == row && move.column == column) {
-                throw Error(`Move already exists at row: ${row}, column: ${column}!`);
-            }
+        let preExistingMove = this.findMove(row, column);
+        if (preExistingMove != null) {
+            throw Error(`Move already exists at row: ${row}, column: ${column}!`);
         }
 
         // Check that move is in bounds
@@ -70,21 +69,26 @@ export default class MoveHistory {
         console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${this.operatorQueue.operators[move.operatorIndex]}`);
     }
 
+    findMove(row, column) {
+        for (let move of this.moves) {
+
+            if (move.row == row && move.column == column) {
+                return move;
+            }
+        }
+        return null; // no moves found. Throw error?
+    }
+
     revertToMove(row, column) {
 
-        const moves = this.moves;
-        let move;
-
-        for (let i = 0; i < moves.length - 1; i++) {
-            move = moves[i];
-            if (row == move.row && column == move.column) {
-                moves.splice(i + 1); // delete all moves after this one
-            }
+        let move = this.findMove(row, column);
+        if (move != null) {
+            const index = this.moves.indexOf(move)
+            this.moves.splice(index + 1);
         }
 
         return move;
-        // Throw error if no moves match
-        // Could make a "findMove" helper function to find moves by row, column
+        // TODO: Throw error if no moves match
     }
 
 }
