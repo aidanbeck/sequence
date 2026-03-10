@@ -42,12 +42,16 @@ export default class MoveHistory {
 
         // Check that move is adjacent to the latest move
         const latestMove = this.getLatestMove();
-        if (!this.isAdjacentToMove(row, column, latestMove)) {
+        if (!this.isMoveAdjacent(row, column, latestMove)) {
             throw Error(`row: ${row}, column: ${column} is not an adjacent move!`);
         }
-
-        // Check that move is in bounds
+        
         // Check that move is not obstructed
+        if (this.grid.isObstructed(row, column)) {
+            throw Error(`Cannot move to row: ${row}, column: ${column}, cell is obstructed!`);
+        }
+
+        // TODO: Check that move is in bounds
 
         return true;
     }
@@ -98,7 +102,7 @@ export default class MoveHistory {
         // TODO: Throw error if no moves match
     }
 
-    isAdjacentToMove(row, column, move) {
+    isMoveAdjacent(row, column, move) {
 
         const rowIsAdjacent = row <= move.row + 1 && row >= move.row - 1 && column == move.column;
         const columnIsAdjacent = column <= move.column + 1 && column >= move.column - 1 && row == move.row;
