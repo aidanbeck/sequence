@@ -10,6 +10,8 @@ let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 // Build HTML Game Board
 let table = generateGridTable(GAME_GRID);
 document.getElementById("grid").appendChild(table);
+colorMovedCells(); // color starting cell
+
 
 function selectCell() {
 
@@ -28,7 +30,8 @@ function selectCell() {
         GAME_MOVES.makeMove(row, column);
     }
 
-    this.classList.add("moved");
+    resetCells();
+    colorMovedCells();
 }
 
 function resetCells() {
@@ -36,14 +39,22 @@ function resetCells() {
 
     for (let element of cellElements) {
         element.classList.remove("moved");
+        element.classList.remove("latestMove");
     }
 }
 
 function colorMovedCells() {
 
-    for (let move of GAME_MOVES.moves) {
+    const moves = GAME_MOVES.moves;
+
+    for (let i = 0; i < moves.length; i++) {
+        let move = moves[i];
         let element = document.getElementById(`${move.row}|${move.column}`);
         element.classList.add("moved");
+
+        if (i == moves.length - 1) {
+            element.classList.add("latestMove");
+        }
     }
 
 }
