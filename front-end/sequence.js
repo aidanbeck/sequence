@@ -55,6 +55,20 @@ function selectCell() {
     }
 
     document.getElementsByClassName(`operator ${GAME_OPERATORS.operators[GAME_MOVES.getLatestMove().operatorIndex]}`)[0].classList.add("selectedOperator");
+
+    // if latest move is on the exit
+    let endIndex = GAME_GRID.endIndex;
+    let startIndex = GAME_GRID.startIndex;
+    if ( GAME_MOVES.findMove(endIndex.row, endIndex.column) != null ) {
+        alert(`Completed with a score of ${GAME_MOVES.getLatestMove().score}! Resetting...`);
+        GAME_MOVES.moves.splice(1);
+        scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
+        resetCells();
+        colorMovedCells();
+        // ALL THIS IS BAD BAD BAD AHHH CLEAN UP CLEAN UP AHHHH
+        document.getElementsByClassName("selectedOperator")[0].classList.remove("selectedOperator");        
+        document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
+    }
 }
 
 function resetCells() {
