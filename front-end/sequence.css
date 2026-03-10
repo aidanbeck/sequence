@@ -11,6 +11,13 @@ td {
     font-size: 24px;
 }
 
+#score {
+    font-weight: bold;
+    font-size: 150%;
+    margin-top: 3%;
+    text-align: center;
+}
+
 .moved {
     background-color: rgb(0, 100, 150);
 }

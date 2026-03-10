@@ -12,6 +12,9 @@ let table = generateGridTable(GAME_GRID);
 document.getElementById("grid").appendChild(table);
 colorMovedCells(); // color starting cell
 
+let scoreElement = document.getElementById("score");
+scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
+
 
 function selectCell() {
 
@@ -32,6 +35,8 @@ function selectCell() {
 
     resetCells();
     colorMovedCells();
+
+    scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score.toFixed(2);
 }
 
 function resetCells() {

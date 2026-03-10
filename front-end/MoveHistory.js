@@ -29,7 +29,7 @@ export default class MoveHistory {
 
         let newMove = new Move(row, column, newOperatorIndex, newScore);
         this.moves.push(newMove)
-        this.printMove(newMove);
+        // this.printMove(newMove);
     }
 
     validateMove(row, column) {
