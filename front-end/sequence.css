@@ -18,6 +18,22 @@ td {
     text-align: center;
 }
 
+#operators {
+    width: 100%;
+    text-align: center;
+    margin: 2%;
+}
+
+.operator {
+    margin: 5%;
+    font-size: larger;
+}
+
+.selectedOperator {
+    text-shadow: 0px 0px 5px green;
+    font-size: 300%;
+}
+
 .moved {
     background-color: rgb(0, 100, 150);
 }

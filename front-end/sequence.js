@@ -8,6 +8,18 @@ let GAME_GRID = new Grid(4, 6, 2);
 let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 
 // Build HTML Game Board
+
+let operatorsElement = document.getElementById("operators");
+
+for (let operator of GAME_OPERATORS.operators) {
+    let operatorSpan = document.createElement("span");
+    operatorSpan.classList.add("operator");
+    operatorSpan.classList.add(operator);
+    operatorSpan.innerHTML = operator;
+    operatorsElement.appendChild(operatorSpan);
+}
+document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
+
 let table = generateGridTable(GAME_GRID);
 document.getElementById("grid").appendChild(table);
 colorMovedCells(); // color starting cell
@@ -37,6 +49,12 @@ function selectCell() {
     colorMovedCells();
 
     scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score.toFixed(2);
+
+    for (let operatorElement of document.getElementsByClassName("operator")) {
+        operatorElement.classList.remove("selectedOperator");
+    }
+
+    document.getElementsByClassName(`operator ${GAME_OPERATORS.operators[GAME_MOVES.getLatestMove().operatorIndex]}`)[0].classList.add("selectedOperator");
 }
 
 function resetCells() {
