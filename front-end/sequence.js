@@ -13,8 +13,8 @@ document.getElementById("grid").appendChild(table);
 
 function selectCell() {
 
-    const row = this.id.split("|")[0];
-    const column = this.id.split("|")[1];
+    const row = Number(this.id.split("|")[0]);
+    const column = Number(this.id.split("|")[1]);
 
     // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
     // TODO (bug): if move is the origin move, it does not reset

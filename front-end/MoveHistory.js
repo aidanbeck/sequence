@@ -40,8 +40,13 @@ export default class MoveHistory {
             throw Error(`Move already exists at row: ${row}, column: ${column}!`);
         }
 
-        // Check that move is in bounds
         // Check that move is adjacent to the latest move
+        const latestMove = this.getLatestMove();
+        if (!this.isAdjacentToMove(row, column, latestMove)) {
+            throw Error(`row: ${row}, column: ${column} is not an adjacent move!`);
+        }
+
+        // Check that move is in bounds
         // Check that move is not obstructed
 
         return true;
@@ -91,6 +96,16 @@ export default class MoveHistory {
 
         return move;
         // TODO: Throw error if no moves match
+    }
+
+    isAdjacentToMove(row, column, move) {
+
+        const rowIsAdjacent = row <= move.row + 1 && row >= move.row - 1 && column == move.column;
+        const columnIsAdjacent = column <= move.column + 1 && column >= move.column - 1 && row == move.row;
+
+
+
+        return rowIsAdjacent || columnIsAdjacent;
     }
 
 }
