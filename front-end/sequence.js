@@ -20,15 +20,19 @@ for (let operator of GAME_OPERATORS.operators) {
 }
 document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
 
+let pointerDown = false;
 let table = generateGridTable(GAME_GRID);
+table.addEventListener("pointerdown", () => { pointerDown = true; } );
+table.addEventListener("pointerup", () => { pointerDown = false; } );
 document.getElementById("grid").appendChild(table);
 colorMovedCells(); // color starting cell
 
 let scoreElement = document.getElementById("score");
 scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
 
-
 function selectCell() {
+
+    if (!pointerDown) { return; }
 
     const row = Number(this.id.split("|")[0]);
     const column = Number(this.id.split("|")[1]);
@@ -125,7 +129,7 @@ function generateGridTable(grid) {
                 cellElement.classList.add("end");
             }
             cellElement.id = `${i}|${j}`;
-            cellElement.addEventListener('click', selectCell);
+            cellElement.addEventListener('pointerenter', selectCell);
             rowElement.appendChild(cellElement);
 
         }
