@@ -71,27 +71,25 @@ class GridElementBuilder {
 
     selectCell() {
 
+        let moves = GAME_MOVES; // TODO recieve this as class input
+        let grid = GAME_GRID;
+
         const row = Number(this.id.split("|")[0]);
         const column = Number(this.id.split("|")[1]);
 
-        GAME_MOVES.makeMove(row, column);
+        moves.makeMove(row, column);
 
+        const moveAlreadyExists = moves.findMove(row, column) != null;
+        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column);
+
+        moveAlreadyExists && moves.revertToMove(row, column);
+        moveResultsInWin && alert(`Completed with a score of ${moves.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
         // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
         // TODO (bug): if move is the origin move, it does not reset
 
-        const moveAlreadyExists = GAME_MOVES.moveExistsAt(row, column); // const moveAlreadyExists = GAME_MOVES.findMove(row, column) != null;
-        if (moveAlreadyExists) { 
-            GAME_MOVES.revertToMove(row, column);
-        }
 
-        const moveResultsInWin = GAME_GRID.endExistsAt(row, column); // implement!
-        if (moveResultsInWin) {
-            alert(`Completed with a score of ${GAME_MOVES.getLatestMove().score}!`);
-            // TODO add winning UI with Submit & Keep Trying options.
-        }
-
-
-        this.updateCellElements();
+        let tableElement = this.parentNode.parentNode;
+        // this.updateCellElements(tableElement); // how does this input the correct element?
         // TODO update score UI
         // TODO update operator UI
     }
