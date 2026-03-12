@@ -28,7 +28,7 @@ class GridElementBuilder {
     constructor(grid) {
 
         let tableElement = this.buildTable(grid);
-        //updateCellElements()
+        this.updateCellElements(tableElement);
         return tableElement;
     }
 
@@ -96,25 +96,40 @@ class GridElementBuilder {
         // TODO update operator UI
     }
 
-    updateCellElements() {
-        this.removeCellElementStyling();
-        this.addCellElementStyling();
+    updateCellElements(tableElement) {
+        this.removeCellElementStyling(tableElement);
+        this.addCellElementStyling(tableElement);
     }
 
-    removeCellElementStyling() {
-        const cellElements = document.getElementsByTagName("td"); // TODO select only elements from this grid.
+    removeCellElementStyling(tableElement) {
+        const cellElements = tableElement.querySelectorAll("td");
         for (let element of cellElements) {
             element.classList.remove("moved");
             element.classList.remove("latestMove");
         }
     }
 
-    addCellElementStyling() {
+    addCellElementStyling(tableElement) {
         const moves = GAME_MOVES.moves;
 
         for (let i = 0; i < moves.length; i++) {
             let move = moves[i];
-            let element = document.getElementById(`${move.row}|${move.column}`);
+
+            /*
+                I can't use getElementById on tableElement, because it is not the document.
+                I also cannot use querySelector(#r|c), as query selectors cannot include | or start with a number.
+                I also cannot change the cell id format, as rows and indexes are extracted from the id string.
+                Eventually, I should change how the string is extracted, or store cell index data elsewhere.
+                For now, I will search through the td elements and compare ids, but this is not a permanent solution.
+            */
+            let element;
+            let tds = tableElement.querySelectorAll("td");
+            for (let td of tds) {
+                if (td.id == `${move.row}|${move.column}`) {
+                    element = td;
+                }
+            }
+
             element.classList.add("moved");
 
             if (i == moves.length - 1) {
