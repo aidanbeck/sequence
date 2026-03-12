@@ -2,13 +2,11 @@ import OperatorQueue from './OperatorQueue.js';
 import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 
-// Default Grid Generation
 let GAME_OPERATORS = new OperatorQueue();
 let GAME_GRID = new Grid(4, 6, 2);
 let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 
-// Build HTML Game Board
-
+// Build Operators
 let operatorsElement = document.getElementById("operators");
 
 for (let operator of GAME_OPERATORS.operators) {
@@ -20,130 +18,114 @@ for (let operator of GAME_OPERATORS.operators) {
 }
 document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
 
-let pointerDown = false;
-let table = generateGridTable(GAME_GRID);
-table.addEventListener("pointerdown", () => { pointerDown = true; } );
-table.addEventListener("pointerup", () => { pointerDown = false; } );
-document.getElementById("grid").appendChild(table);
-colorMovedCells(); // color starting cell
-
+// Build Score
 let scoreElement = document.getElementById("score");
 scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
 
-function selectCell() {
+// Build Grid
 
-    if (!pointerDown) { return; }
+class GridElementBuilder {
+    constructor(grid) {
 
-    const row = Number(this.id.split("|")[0]);
-    const column = Number(this.id.split("|")[1]);
+        let tableElement = this.buildTable(grid);
+        //updateCellElements()
+        return tableElement;
+    }
 
-    // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
-    // TODO (bug): if move is the origin move, it does not reset
+    buildTable(grid) {
 
-    //does move already exist?
-    if (GAME_MOVES.findMove(row, column) != null) {
-        GAME_MOVES.revertToMove(row, column);
-        resetCells();
-        colorMovedCells();
-    } else {
+        let tableElement = document.createElement("table");
+        let cells = grid.cells;
+
+        for (let rowIndex = 0; rowIndex < cells.length; rowIndex++) {
+
+            let rowElement = document.createElement("tr");
+            let row = cells[rowIndex];
+
+            for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+
+                let cellElement = document.createElement("td");
+                let cell = row[columnIndex];
+
+                let isObstructed = grid.isObstructed(rowIndex, columnIndex);
+                let isStart = (rowIndex == grid.startIndex.row) && (columnIndex == grid.startIndex.column);
+                let isEnd = (rowIndex == grid.endIndex.row) && (columnIndex == grid.endIndex.column);
+
+                isObstructed && cellElement.classList.add("obstructed");
+                isStart && cellElement.classList.add("start");
+                isEnd && cellElement.classList.add("end");
+
+                cellElement.innerText = cell.number;
+                cellElement.id = `${rowIndex}|${columnIndex}`;
+
+                cellElement.addEventListener('pointerenter', this.selectCell);
+                rowElement.appendChild(cellElement);
+
+            }
+
+            tableElement.appendChild(rowElement);
+        }
+
+        return tableElement;
+    }
+
+    selectCell() {
+
+        const row = Number(this.id.split("|")[0]);
+        const column = Number(this.id.split("|")[1]);
+
         GAME_MOVES.makeMove(row, column);
+
+        // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
+        // TODO (bug): if move is the origin move, it does not reset
+
+        const moveAlreadyExists = GAME_MOVES.moveExistsAt(row, column); // const moveAlreadyExists = GAME_MOVES.findMove(row, column) != null;
+        if (moveAlreadyExists) { 
+            GAME_MOVES.revertToMove(row, column);
+        }
+
+        const moveResultsInWin = GAME_GRID.endExistsAt(row, column); // implement!
+        if (moveResultsInWin) {
+            alert(`Completed with a score of ${GAME_MOVES.getLatestMove().score}!`);
+            // TODO add winning UI with Submit & Keep Trying options.
+        }
+
+
+        this.updateCellElements();
+        // TODO update score UI
+        // TODO update operator UI
     }
 
-    resetCells();
-    colorMovedCells();
-
-    scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score.toFixed(2);
-
-    for (let operatorElement of document.getElementsByClassName("operator")) {
-        operatorElement.classList.remove("selectedOperator");
+    updateCellElements() {
+        this.removeCellElementStyling();
+        this.addCellElementStyling();
     }
 
-    document.getElementsByClassName(`operator ${GAME_OPERATORS.operators[GAME_MOVES.getLatestMove().operatorIndex]}`)[0].classList.add("selectedOperator");
-
-    // if latest move is on the exit
-    let endIndex = GAME_GRID.endIndex;
-    let startIndex = GAME_GRID.startIndex;
-    if ( GAME_MOVES.findMove(endIndex.row, endIndex.column) != null ) {
-        alert(`Completed with a score of ${GAME_MOVES.getLatestMove().score}! Resetting...`);
-        GAME_MOVES.moves.splice(1);
-        scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
-        resetCells();
-        colorMovedCells();
-        // ALL THIS IS BAD BAD BAD AHHH CLEAN UP CLEAN UP AHHHH
-        document.getElementsByClassName("selectedOperator")[0].classList.remove("selectedOperator");        
-        document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
-    }
-}
-
-function resetCells() {
-    const cellElements = document.getElementsByTagName("td");
-
-    for (let element of cellElements) {
-        element.classList.remove("moved");
-        element.classList.remove("latestMove");
-    }
-}
-
-function colorMovedCells() {
-
-    const moves = GAME_MOVES.moves;
-
-    for (let i = 0; i < moves.length; i++) {
-        let move = moves[i];
-        let element = document.getElementById(`${move.row}|${move.column}`);
-        element.classList.add("moved");
-
-        if (i == moves.length - 1) {
-            element.classList.add("latestMove");
+    removeCellElementStyling() {
+        const cellElements = document.getElementsByTagName("td"); // TODO select only elements from this grid.
+        for (let element of cellElements) {
+            element.classList.remove("moved");
+            element.classList.remove("latestMove");
         }
     }
 
-}
+    addCellElementStyling() {
+        const moves = GAME_MOVES.moves;
 
-function generateGridTable(grid) {
+        for (let i = 0; i < moves.length; i++) {
+            let move = moves[i];
+            let element = document.getElementById(`${move.row}|${move.column}`);
+            element.classList.add("moved");
 
-    let cells = grid.cells;
-    let tableElement = document.createElement("table");
+            if (i == moves.length - 1) {
+                element.classList.add("latestMove");
+            }
+        }
+    }
     
-    for (let i = 0; i < cells.length; i++) {
-
-        let rowElement = document.createElement("tr");
-
-        for (let j = 0; j < cells[i].length; j++) {
-
-            let cellElement = document.createElement("td");
-            cellElement.innerText = cells[i][j].number;
-
-            // Obstructed Styling
-            if (cells[i][j].obstructed) {
-                cellElement.classList.add("obstructed");
-            }
-                
-            // Starting Square Styling
-            if (i === grid.startIndex.row && j === grid.startIndex.column) {
-                cellElement.classList.add("start");
-            }
-
-            //Ending Square Styling
-            if (i === grid.endIndex.row && j === grid.endIndex.column) {
-                cellElement.classList.add("end");
-            }
-            cellElement.id = `${i}|${j}`;
-            cellElement.addEventListener('pointerenter', selectCell);
-            rowElement.appendChild(cellElement);
-
-        }
-
-        tableElement.appendChild(rowElement);
-    }
-
-    return tableElement;
 }
 
+let gridElement = new GridElementBuilder(GAME_GRID);
+document.getElementById("grid").appendChild(gridElement);
 
-globalThis.GAME_MOVES = GAME_MOVES; // allow developer console to interact with game state.
-
-/*
-    Because this site uses js modules, opening index files directly will result in CORS errors.
-    You will have to run the site as a web server. I am using node's http-server package.
-*/
+globalThis.GAME_MOVES = GAME_MOVES; // exposes state to the developer console for debugging.
