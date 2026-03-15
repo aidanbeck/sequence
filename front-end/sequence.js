@@ -6,17 +6,36 @@ let GAME_OPERATORS = new OperatorQueue();
 let GAME_GRID = new Grid(4, 6, 2);
 let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 
-// Build Operators
-let operatorsElement = document.getElementById("operators");
+class OperatorQueueElementBuilder {
+    constructor(operatorQueue) {
 
-for (let operator of GAME_OPERATORS.operators) {
-    let operatorSpan = document.createElement("span");
-    operatorSpan.classList.add("operator");
-    operatorSpan.classList.add(operator);
-    operatorSpan.innerHTML = operator;
-    operatorsElement.appendChild(operatorSpan);
+        let operatorQueueElement = this.buildDiv(operatorQueue.operators);
+        this.updateOperatorsElement(operatorQueueElement);
+        return operatorQueueElement;
+    }
+
+    buildDiv(operators) {
+        let operatorQueueElement = document.createElement("div");
+
+        for (let operatorSymbol of operators) {
+            let operatorElement = document.createElement("span");
+            operatorElement.classList.add("operator", operatorSymbol);
+            operatorElement.innerText = operatorSymbol;
+            operatorQueueElement.appendChild(operatorElement);
+        }
+
+        return operatorQueueElement;
+    }
+
+    updateOperatorsElement(operatorQueueElement) {
+        
+        let selectedOperator = operatorQueueElement.querySelector(".selectedOperator");
+        selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
+
+        let operatorIndex = GAME_MOVES.getLatestMove().operatorIndex; // TODO inherit GAME_MOVES some other way.
+        operatorQueueElement.querySelectorAll(".operator")[operatorIndex].classList.add("selectedOperator");
+    }
 }
-document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
 
 class ScoreElementBuilder {
     constructor(moves) {
@@ -147,9 +166,11 @@ class GridElementBuilder {
     
 }
 
+let operatorQueueElement = new OperatorQueueElementBuilder(GAME_OPERATORS);
 let gridElement = new GridElementBuilder(GAME_GRID);
 let scoreElement = new ScoreElementBuilder(GAME_MOVES);
 
+document.getElementById("operators").appendChild(operatorQueueElement);
 document.getElementById("grid").appendChild(gridElement);
 document.getElementById("score").appendChild(scoreElement);
 
