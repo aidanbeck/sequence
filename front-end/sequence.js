@@ -18,11 +18,19 @@ for (let operator of GAME_OPERATORS.operators) {
 }
 document.getElementsByClassName("operator")[0].classList.add("selectedOperator");
 
-// Build Score
-let scoreElement = document.getElementById("score");
-scoreElement.innerHTML = "SCORE: " + GAME_MOVES.getLatestMove().score;
+class ScoreElementBuilder {
+    constructor(moves) {
 
-// Build Grid
+        let scoreElement = document.createElement("div");
+        this.updateScoreElement(scoreElement, moves);
+        return scoreElement;
+    }
+
+    updateScoreElement(scoreElement, moves) {
+        let score = moves.getLatestMove().score;
+        scoreElement.innerText = `SCORE: ${score}`;
+    }
+}
 
 class GridElementBuilder {
     constructor(grid) {
@@ -92,6 +100,7 @@ class GridElementBuilder {
         // this.updateCellElements(tableElement); // how does this input the correct element?
         // TODO update score UI
         // TODO update operator UI
+        // !!! maybe this whole section should be extracted into an external "update ui" method
     }
 
     updateCellElements(tableElement) {
@@ -139,6 +148,9 @@ class GridElementBuilder {
 }
 
 let gridElement = new GridElementBuilder(GAME_GRID);
+let scoreElement = new ScoreElementBuilder(GAME_MOVES);
+
 document.getElementById("grid").appendChild(gridElement);
+document.getElementById("score").appendChild(scoreElement);
 
 globalThis.GAME_MOVES = GAME_MOVES; // exposes state to the developer console for debugging.
