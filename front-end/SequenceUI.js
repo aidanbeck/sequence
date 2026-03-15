@@ -1,3 +1,17 @@
+export default class SequenceUI {
+    constructor(operatorQueue, grid, moves) {
+        this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
+        this.gridElement = new GridElementBuilder(grid);
+        this.scoreElement = new ScoreElementBuilder(moves);
+    }
+
+    appendToIds(operatorQueueElementId, gridElementId, scoreElementId) {
+        document.getElementById(operatorQueueElementId).appendChild(this.operatorQueueElement);
+        document.getElementById(gridElementId).appendChild(this.gridElement);
+        document.getElementById(scoreElementId).appendChild(this.scoreElement);
+    }
+}
+
 class OperatorQueueElementBuilder {
     constructor(operatorQueue) {
 
@@ -77,7 +91,7 @@ class GridElementBuilder {
     selectCell() {
 
         let moves = GAME_MOVES; // TODO recieve this as class input
-        let grid = GAME_GRID;
+        let grid = GAME_MOVES.grid;
 
         const row = Number(this.id.split("|")[0]);
         const column = Number(this.id.split("|")[1]);
@@ -156,10 +170,4 @@ class ScoreElementBuilder {
         let score = moves.getLatestMove().score;
         scoreElement.innerText = `SCORE: ${score}`;
     }
-}
-
-export {
-    OperatorQueueElementBuilder,
-    GridElementBuilder,
-    ScoreElementBuilder
 }

@@ -1,11 +1,11 @@
 import OperatorQueue from './OperatorQueue.js';
 import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
-import { OperatorQueueElementBuilder, GridElementBuilder, ScoreElementBuilder } from './UI.js';
+import SequenceUI from './SequenceUI.js';
 
-let GAME_OPERATORS = new OperatorQueue();
+let GAME_OPERATORQUEUE = new OperatorQueue();
 let GAME_GRID = new Grid(4, 6, 2);
-let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
+let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORQUEUE);
 
 /*
     This is a band-aid, setting GAME_MOVES to a global variable.
@@ -16,10 +16,5 @@ let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORS);
 */
 globalThis.GAME_MOVES = GAME_MOVES;
 
-let operatorQueueElement = new OperatorQueueElementBuilder(GAME_OPERATORS);
-let gridElement = new GridElementBuilder(GAME_GRID);
-let scoreElement = new ScoreElementBuilder(GAME_MOVES);
-
-document.getElementById("operators").appendChild(operatorQueueElement);
-document.getElementById("grid").appendChild(gridElement);
-document.getElementById("score").appendChild(scoreElement);
+let UI = new SequenceUI(GAME_OPERATORQUEUE, GAME_GRID, GAME_MOVES);
+UI.appendToIds("operatorQueue", "grid", "score");
