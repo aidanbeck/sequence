@@ -111,9 +111,9 @@ export default class MoveHistory {
         return rowIsAdjacent || columnIsAdjacent;
     }
 
-    MoveIsLatest(row, column) {
-        const latestMove = this.getLatestMove();
-        return row == latestMove.row && column == latestMove.column;
+    MoveIsPrevious(row, column) {
+        const previousMove = this.moves[this.moves.length - 2];
+        return row == previousMove.row && column == previousMove.column;
     }
 
     MoveIsPreexisting(row, column) {

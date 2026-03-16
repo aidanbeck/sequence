@@ -113,8 +113,8 @@ class GridElementBuilder {
 
         moveHistory.makeMove(row, column);
 
-        moveHistory.MoveIsPreexisting(row, column) && moveHistory.revertToMove(row, column);
-        moveHistory.MoveIsLatest(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
+        // moveHistory.MoveIsPreexisting(row, column) && moveHistory.revertToMove(row, column);
+        moveHistory.MoveIsPrevious(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
         moveHistory.MoveIsStartIndex(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
 
         moveHistory.MoveIsEndIndex(row, column) && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
