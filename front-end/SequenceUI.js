@@ -113,14 +113,12 @@ class GridElementBuilder {
 
         moveHistory.makeMove(row, column);
 
-        const moveAlreadyExists = moveHistory.findMove(row, column) != null;
-        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column); // moveHistory should have a function for detecting this, so we don't need to access grid, so updates only need to interface with moveHistory
+        moveHistory.MoveIsPreexisting(row, column) && moveHistory.revertToMove(row, column);
+        moveHistory.MoveIsLatest(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
+        moveHistory.MoveIsStartIndex(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
 
-        moveAlreadyExists && moveHistory.revertToMove(row, column);
-        moveResultsInWin && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
-        // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
-        // TODO (bug): if move is the origin move, it does not reset
-
+        moveHistory.MoveIsEndIndex(row, column) && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
+        
         ui.renderState();
     }
 

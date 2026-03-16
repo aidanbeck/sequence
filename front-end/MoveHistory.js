@@ -37,12 +37,13 @@ export default class MoveHistory {
         // Check that move does not already exist at this index.
         let preExistingMove = this.findMove(row, column);
         if (preExistingMove != null) {
-            throw Error(`Move already exists at row: ${row}, column: ${column}!`);
+            //throw Error(`Move already exists at row: ${row}, column: ${column}!`);
+            return false; // TODO handle this error instead of ignoring it.
         }
 
         // Check that move is adjacent to the latest move
         const latestMove = this.getLatestMove();
-        if (!this.isMoveAdjacent(row, column, latestMove)) {
+        if (!this.MoveIsAdjacent(row, column, latestMove)) {
             throw Error(`row: ${row}, column: ${column} is not an adjacent move!`);
         }
         
@@ -93,7 +94,7 @@ export default class MoveHistory {
         let move = this.findMove(row, column);
         if (move != null) {
             let index = this.moves.indexOf(move)
-            if (index == 0) { return move; } // don't remove the first move
+            if (index == 0) { index = 1; } // don't remove the first move
             this.moves.splice(index);
             this.makeMove(row, column); // make move on this spot again (useful for triggering thins like printMove)
         }
@@ -102,14 +103,31 @@ export default class MoveHistory {
         // TODO: Throw error if no moves match
     }
 
-    isMoveAdjacent(row, column, move) {
+    MoveIsAdjacent(row, column, move) {
 
         const rowIsAdjacent = row <= move.row + 1 && row >= move.row - 1 && column == move.column;
         const columnIsAdjacent = column <= move.column + 1 && column >= move.column - 1 && row == move.row;
 
-
-
         return rowIsAdjacent || columnIsAdjacent;
+    }
+
+    MoveIsLatest(row, column) {
+        const latestMove = this.getLatestMove();
+        return row == latestMove.row && column == latestMove.column;
+    }
+
+    MoveIsPreexisting(row, column) {
+        return this.findMove(row, column) != null;
+    }
+
+    MoveIsEndIndex(row, column) {
+        let endIndex = this.grid.endIndex;
+        return row == endIndex.row && column == endIndex.column;
+    }
+
+    MoveIsStartIndex(row, column) {
+        let startIndex = this.grid.startIndex;
+        return row == startIndex.row && column == startIndex.column;
     }
 
 }
