@@ -29,6 +29,10 @@ export default class OperatorQueue {
                 return score * number;
             case '/':
                 return score / number;
+            case '^':
+                return Math.pow(score, number);
+            case '√':
+                return Math.pow(score, 1 / number);
         }
     }
     
