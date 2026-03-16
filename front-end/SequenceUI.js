@@ -1,8 +1,13 @@
 export default class SequenceUI {
     constructor(operatorQueue, grid, moves) {
+
+        this.operatorQueue = operatorQueue;
+        this.grid = grid;
+        this.moves = moves;
+
         this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
         this.gridElement = new GridElementBuilder(grid);
-        this.scoreElement = new ScoreElementBuilder(moves);
+        this.scoreElement = new ScoreElementBuilder(moves);  
     }
 
     appendToIds(operatorQueueElementId, gridElementId, scoreElementId) {
@@ -10,13 +15,19 @@ export default class SequenceUI {
         document.getElementById(gridElementId).appendChild(this.gridElement);
         document.getElementById(scoreElementId).appendChild(this.scoreElement);
     }
+
+    renderState() {
+
+        let operatorIndex = moves.getLatestMove().operatorIndex;
+        this.operatorQueueElement.updateOperatorsElement(operatorIndex);
+    }
 }
 
 class OperatorQueueElementBuilder {
     constructor(operatorQueue) {
 
         let operatorQueueElement = this.buildDiv(operatorQueue.operators);
-        this.updateOperatorsElement(operatorQueueElement);
+        this.updateOperatorsElement(operatorQueueElement, 0);
         return operatorQueueElement;
     }
 
@@ -33,12 +44,11 @@ class OperatorQueueElementBuilder {
         return operatorQueueElement;
     }
 
-    updateOperatorsElement(operatorQueueElement) {
+    updateOperatorsElement(operatorQueueElement, operatorIndex) {
         
         let selectedOperator = operatorQueueElement.querySelector(".selectedOperator");
         selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
 
-        let operatorIndex = GAME_MOVES.getLatestMove().operatorIndex; // TODO inherit GAME_MOVES some other way.
         operatorQueueElement.querySelectorAll(".operator")[operatorIndex].classList.add("selectedOperator");
     }
 }
@@ -99,7 +109,7 @@ class GridElementBuilder {
         moves.makeMove(row, column);
 
         const moveAlreadyExists = moves.findMove(row, column) != null;
-        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column);
+        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column); // moves should have a function for detecting this, so we don't need to access grid, so updates only need to interface with moves
 
         moveAlreadyExists && moves.revertToMove(row, column);
         moveResultsInWin && alert(`Completed with a score of ${moves.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
