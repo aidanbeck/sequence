@@ -7,7 +7,9 @@ export default class SequenceUI {
 
         this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
         this.gridElement = new GridElementBuilder(grid);
-        this.scoreElement = new ScoreElementBuilder(moves);  
+        this.scoreElement = new ScoreElementBuilder(moves);
+
+        this.renderState();
     }
 
     appendToIds(operatorQueueElementId, gridElementId, scoreElementId) {
@@ -17,9 +19,9 @@ export default class SequenceUI {
     }
 
     renderState() {
-
-        let operatorIndex = moves.getLatestMove().operatorIndex;
-        this.operatorQueueElement.updateOperatorsElement(operatorIndex);
+        OperatorQueueElementBuilder.updateOperatorsElement(this.operatorQueueElement, this.moves);
+        GridElementBuilder.updateCellElements(this.gridElement, this.moves);
+        ScoreElementBuilder.updateScoreElement(this.scoreElement, this.moves);
     }
 }
 
@@ -27,7 +29,6 @@ class OperatorQueueElementBuilder {
     constructor(operatorQueue) {
 
         let operatorQueueElement = this.buildDiv(operatorQueue.operators);
-        this.updateOperatorsElement(operatorQueueElement, 0);
         return operatorQueueElement;
     }
 
@@ -44,8 +45,9 @@ class OperatorQueueElementBuilder {
         return operatorQueueElement;
     }
 
-    updateOperatorsElement(operatorQueueElement, operatorIndex) {
+    static updateOperatorsElement(operatorQueueElement, moves) {
         
+        let operatorIndex = moves.getLatestMove().operatorIndex;
         let selectedOperator = operatorQueueElement.querySelector(".selectedOperator");
         selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
 
@@ -57,7 +59,6 @@ class GridElementBuilder {
     constructor(grid) {
 
         let tableElement = this.buildTable(grid);
-        this.updateCellElements(tableElement);
         return tableElement;
     }
 
@@ -87,7 +88,7 @@ class GridElementBuilder {
                 cellElement.innerText = cell.number;
                 cellElement.id = `${rowIndex}|${columnIndex}`;
 
-                cellElement.addEventListener('pointerenter', this.selectCell);
+                cellElement.addEventListener('pointerenter', GridElementBuilder.selectCell);
                 rowElement.appendChild(cellElement);
 
             }
@@ -98,8 +99,10 @@ class GridElementBuilder {
         return tableElement;
     }
 
-    selectCell() {
+    static selectCell(event) {
 
+        const target = event.target;
+                
         let moves = GAME_MOVES; // TODO recieve this as class input
         let grid = GAME_MOVES.grid;
 
@@ -124,12 +127,12 @@ class GridElementBuilder {
         // !!! maybe this whole section should be extracted into an external "update ui" method
     }
 
-    updateCellElements(tableElement) {
+    static updateCellElements(tableElement, moves) {
         this.removeCellElementStyling(tableElement);
-        this.addCellElementStyling(tableElement);
+        this.addCellElementStyling(tableElement, moves);
     }
 
-    removeCellElementStyling(tableElement) {
+    static removeCellElementStyling(tableElement) {
         const cellElements = tableElement.querySelectorAll("td");
         for (let element of cellElements) {
             element.classList.remove("moved");
@@ -137,9 +140,7 @@ class GridElementBuilder {
         }
     }
 
-    addCellElementStyling(tableElement) {
-        const moves = GAME_MOVES.moves;
-
+    static addCellElementStyling(tableElement, moves) {
         for (let i = 0; i < moves.length; i++) {
             let move = moves[i];
 
@@ -172,11 +173,10 @@ class ScoreElementBuilder {
     constructor(moves) {
 
         let scoreElement = document.createElement("div");
-        this.updateScoreElement(scoreElement, moves);
         return scoreElement;
     }
 
-    updateScoreElement(scoreElement, moves) {
+    static updateScoreElement(scoreElement, moves) {
         let score = moves.getLatestMove().score;
         scoreElement.innerText = `SCORE: ${score}`;
     }
