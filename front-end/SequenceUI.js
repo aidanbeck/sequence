@@ -125,7 +125,7 @@ class GridElementBuilder {
     }
 
     static updateCellElements(tableElement, moveHistory) {
-        // this.removeCellElementStyling(tableElement);
+        this.removeCellElementStyling(tableElement);
         this.addCellElementStyling(tableElement, moveHistory);
     }
 
