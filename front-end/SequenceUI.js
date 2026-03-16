@@ -6,7 +6,7 @@ export default class SequenceUI {
         this.moves = moves;
 
         this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
-        this.gridElement = new GridElementBuilder(grid);
+        this.gridElement = new GridElementBuilder(grid, this);
         this.scoreElement = new ScoreElementBuilder(moves);
 
         this.renderState();
@@ -56,17 +56,18 @@ class OperatorQueueElementBuilder {
 }
 
 class GridElementBuilder {
-    constructor(grid) {
+    constructor(grid, ui) {
 
-        let tableElement = this.buildTable(grid);
+        let tableElement = this.buildTable(grid, ui);
         return tableElement;
     }
 
-    buildTable(grid) {
+    buildTable(grid, ui) {
 
         let tableElement = document.createElement("table");
-        let cells = grid.cells;
+        tableElement.ui = ui; // allows cellElements to reference ui reference upon selection.
 
+        let cells = grid.cells;
         for (let rowIndex = 0; rowIndex < cells.length; rowIndex++) {
 
             let rowElement = document.createElement("tr");
@@ -88,7 +89,7 @@ class GridElementBuilder {
                 cellElement.innerText = cell.number;
                 cellElement.id = `${rowIndex}|${columnIndex}`;
 
-                cellElement.addEventListener('pointerenter', GridElementBuilder.selectCell);
+                cellElement.addEventListener('pointerenter', this.selectCell);
                 rowElement.appendChild(cellElement);
 
             }
@@ -99,15 +100,16 @@ class GridElementBuilder {
         return tableElement;
     }
 
-    static selectCell(event) {
+    selectCell() {
+        
+        let cellElement = this; // cellElement is passed this function, so "this" will be the cellElement.
+        let ui = cellElement.parentNode.parentNode.ui; // grid table element contains a reference to ui object
+        
+        let moves = ui.moves;
+        let grid = ui.grid;
 
-        const target = event.target;
-                
-        let moves = GAME_MOVES; // TODO recieve this as class input
-        let grid = GAME_MOVES.grid;
-
-        const row = Number(this.id.split("|")[0]);
-        const column = Number(this.id.split("|")[1]);
+        const row = Number(cellElement.id.split("|")[0]);
+        const column = Number(cellElement.id.split("|")[1]);
 
         moves.makeMove(row, column);
 
@@ -119,12 +121,7 @@ class GridElementBuilder {
         // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
         // TODO (bug): if move is the origin move, it does not reset
 
-
-        let tableElement = this.parentNode.parentNode;
-        // this.updateCellElements(tableElement); // how does this input the correct element?
-        // TODO update score UI
-        // TODO update operator UI
-        // !!! maybe this whole section should be extracted into an external "update ui" method
+        ui.renderState();
     }
 
     static updateCellElements(tableElement, moves) {
