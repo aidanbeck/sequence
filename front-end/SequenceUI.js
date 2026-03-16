@@ -1,13 +1,13 @@
 export default class SequenceUI {
-    constructor(operatorQueue, grid, moves) {
+    constructor(operatorQueue, grid, moveHistory) {
 
         this.operatorQueue = operatorQueue;
         this.grid = grid;
-        this.moves = moves;
+        this.moveHistory = moveHistory;
 
         this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
         this.gridElement = new GridElementBuilder(grid, this);
-        this.scoreElement = new ScoreElementBuilder(moves);
+        this.scoreElement = new ScoreElementBuilder(moveHistory);
 
         this.renderState();
     }
@@ -19,9 +19,9 @@ export default class SequenceUI {
     }
 
     renderState() {
-        OperatorQueueElementBuilder.updateOperatorsElement(this.operatorQueueElement, this.moves);
-        GridElementBuilder.updateCellElements(this.gridElement, this.moves);
-        ScoreElementBuilder.updateScoreElement(this.scoreElement, this.moves);
+        OperatorQueueElementBuilder.updateOperatorsElement(this.operatorQueueElement, this.moveHistory);
+        GridElementBuilder.updateCellElements(this.gridElement, this.moveHistory);
+        ScoreElementBuilder.updateScoreElement(this.scoreElement, this.moveHistory);
     }
 }
 
@@ -45,9 +45,9 @@ class OperatorQueueElementBuilder {
         return operatorQueueElement;
     }
 
-    static updateOperatorsElement(operatorQueueElement, moves) {
+    static updateOperatorsElement(operatorQueueElement, moveHistory) {
         
-        let operatorIndex = moves.getLatestMove().operatorIndex;
+        let operatorIndex = moveHistory.getLatestMove().operatorIndex;
         let selectedOperator = operatorQueueElement.querySelector(".selectedOperator");
         selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
 
@@ -105,28 +105,28 @@ class GridElementBuilder {
         let cellElement = this; // cellElement is passed this function, so "this" will be the cellElement.
         let ui = cellElement.parentNode.parentNode.ui; // grid table element contains a reference to ui object
         
-        let moves = ui.moves;
+        let moveHistory = ui.moveHistory;
         let grid = ui.grid;
 
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
 
-        moves.makeMove(row, column);
+        moveHistory.makeMove(row, column);
 
-        const moveAlreadyExists = moves.findMove(row, column) != null;
-        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column); // moves should have a function for detecting this, so we don't need to access grid, so updates only need to interface with moves
+        const moveAlreadyExists = moveHistory.findMove(row, column) != null;
+        const moveResultsInWin = (row == grid.endIndex.row) && (column == grid.endIndex.column); // moveHistory should have a function for detecting this, so we don't need to access grid, so updates only need to interface with moveHistory
 
-        moveAlreadyExists && moves.revertToMove(row, column);
-        moveResultsInWin && alert(`Completed with a score of ${moves.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
+        moveAlreadyExists && moveHistory.revertToMove(row, column);
+        moveResultsInWin && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
         // TODO: if move is the latest move, revert move to the previous move (so you can click to toggle the recent move)
         // TODO (bug): if move is the origin move, it does not reset
 
         ui.renderState();
     }
 
-    static updateCellElements(tableElement, moves) {
-        this.removeCellElementStyling(tableElement);
-        this.addCellElementStyling(tableElement, moves);
+    static updateCellElements(tableElement, moveHistory) {
+        // this.removeCellElementStyling(tableElement);
+        this.addCellElementStyling(tableElement, moveHistory);
     }
 
     static removeCellElementStyling(tableElement) {
@@ -137,7 +137,8 @@ class GridElementBuilder {
         }
     }
 
-    static addCellElementStyling(tableElement, moves) {
+    static addCellElementStyling(tableElement, moveHistory) {
+        const moves = moveHistory.moves;
         for (let i = 0; i < moves.length; i++) {
             let move = moves[i];
 
@@ -167,14 +168,14 @@ class GridElementBuilder {
 }
 
 class ScoreElementBuilder {
-    constructor(moves) {
+    constructor(moveHistory) {
 
         let scoreElement = document.createElement("div");
         return scoreElement;
     }
 
-    static updateScoreElement(scoreElement, moves) {
-        let score = moves.getLatestMove().score;
+    static updateScoreElement(scoreElement, moveHistory) {
+        let score = moveHistory.getLatestMove().score;
         scoreElement.innerText = `SCORE: ${score}`;
     }
 }
