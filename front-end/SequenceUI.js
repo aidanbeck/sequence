@@ -132,6 +132,7 @@ class GridElementBuilder {
         for (let element of cellElements) {
             element.classList.remove("moved");
             element.classList.remove("latestMove");
+            element.classList.remove("previousMove");
         }
     }
 
@@ -159,6 +160,9 @@ class GridElementBuilder {
 
             if (i == moves.length - 1) {
                 element.classList.add("latestMove");
+            }
+            if (i == moves.length - 2) {
+                element.classList.add("previousMove");
             }
         }
     }

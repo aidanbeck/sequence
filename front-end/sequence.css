@@ -62,3 +62,7 @@ td {
 .latestMove {
     background-color: lightblue;
 }
+
+.previousMove {
+    background-color: rgb(0, 150, 225);
+}
