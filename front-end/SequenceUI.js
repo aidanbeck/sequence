@@ -1,6 +1,8 @@
 export default class SequenceUI {
     constructor(operatorQueue, grid, moveHistory) {
 
+        this.mouseDown = false;
+
         this.operatorQueue = operatorQueue;
         this.grid = grid;
         this.moveHistory = moveHistory;
@@ -59,7 +61,19 @@ class GridElementBuilder {
     constructor(grid, ui) {
 
         let tableElement = this.buildTable(grid, ui);
+        tableElement.addEventListener("mousedown", this.mouseDown);
+        // tableElement.addEventListener("touchstart", this.mouseDown);
+        tableElement.addEventListener("mouseup", this.mouseUp);
+        // tableElement.addEventListener("touchend", this.mouseUp); 
         return tableElement;
+    }
+
+    mouseDown() {
+        this.ui.mouseDown = true; // mouseDown is called by grid element, so "this" is the grid itself
+    }
+
+    mouseUp() {
+        this.ui.mouseDown = false; // mouseDown is called by grid element, so "this" is the grid itself
     }
 
     buildTable(grid, ui) {
@@ -90,6 +104,8 @@ class GridElementBuilder {
                 cellElement.id = `${rowIndex}|${columnIndex}`;
 
                 cellElement.addEventListener('pointerenter', this.selectCell);
+                cellElement.addEventListener('click', this.selectCell);
+
                 rowElement.appendChild(cellElement);
 
             }
@@ -100,11 +116,13 @@ class GridElementBuilder {
         return tableElement;
     }
 
-    selectCell() {
+    selectCell(event) {
         
         let cellElement = this; // cellElement is passed this function, so "this" will be the cellElement.
         let ui = cellElement.parentNode.parentNode.ui; // grid table element contains a reference to ui object
         
+        if (!ui.mouseDown && event.type != "click") { return; }
+
         let moveHistory = ui.moveHistory;
         let grid = ui.grid;
 
