@@ -61,11 +61,25 @@ class GridElementBuilder {
     constructor(grid, ui) {
 
         let tableElement = this.buildTable(grid, ui);
+
         tableElement.addEventListener("mousedown", this.mouseDown);
-        // tableElement.addEventListener("touchstart", this.mouseDown);
         tableElement.addEventListener("mouseup", this.mouseUp);
-        // tableElement.addEventListener("touchend", this.mouseUp); 
+
+        tableElement.addEventListener("touchstart", this.mouseDown);
+        tableElement.addEventListener("touchend", this.mouseUp); 
+        tableElement.addEventListener("touchmove", this.touchMove);
+
         return tableElement;
+    }
+
+    touchMove(e) {
+        /*
+            Touch events on mobile target the element that was initially touched, NOT the element beneath the touch coordinates, which is what mouse/pointer events do.
+            This function converts touch events into pointer events by extracting their coordinates & re-dispatching them at the cell in that location.
+        */
+        let touch = e.touches[0];
+        let targetCell = document.elementFromPoint(touch.clientX, touch.clientY);
+        targetCell.dispatchEvent( new PointerEvent("pointerenter") );
     }
 
     mouseDown() {
