@@ -1,5 +1,5 @@
 export default class OperatorQueue {
-    constructor(operators = ['+', '*', '/']) {
+    constructor(operators = ['+', '×', '÷']) {
 
         this.operators = operators;
     }
@@ -25,9 +25,9 @@ export default class OperatorQueue {
                 return score + number;
             case '-':
                 return score - number;
-            case '*':
+            case '×':
                 return score * number;
-            case '/':
+            case '÷':
                 return score / number;
             case '^':
                 return Math.pow(score, number);
