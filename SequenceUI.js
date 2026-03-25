@@ -202,8 +202,8 @@ class GridElementBuilder {
             if (i > 0) {
 
 
-                let nextOperatorIndex = moveHistory.operatorQueue.getNextIndex(move.operatorIndex + 1); // not sure why +1 works, that might mean things aren't right, and could break when there is a different number of operators. Going to sleep for now. Reinvestigate this.
-                let operatorSymbol = moveHistory.operatorQueue.getOperator(nextOperatorIndex);
+                let lastOperatorIndex = moves[i - 1].operatorIndex; // get operator index of the previous move in the history
+                let operatorSymbol = moveHistory.operatorQueue.getOperator(lastOperatorIndex);
                 
                 let cellNumber = moveHistory.grid.getCell(move.row, move.column).number;
                 element.textContent = `${operatorSymbol}${cellNumber}  `;
