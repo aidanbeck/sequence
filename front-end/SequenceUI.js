@@ -143,6 +143,9 @@ class GridElementBuilder {
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
 
+        let latestMove = moveHistory.getLatestMove();
+        if (latestMove.row == row && latestMove.column == column) { return; }
+
         moveHistory.makeMove(row, column);
 
         // moveHistory.MoveIsPreexisting(row, column) && moveHistory.revertToMove(row, column);
