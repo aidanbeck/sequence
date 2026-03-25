@@ -40,6 +40,13 @@ td {
     text-align: center;
 }
 
+.finalScore {
+    color: white;
+    text-decoration: underline;
+    text-shadow: 0 0 10px white; /* glows AND has a shadow, super cool!! */
+    background-color: green;
+}
+
 #operators {
     width: 100%;
     text-align: center;

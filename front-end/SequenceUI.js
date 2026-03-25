@@ -152,7 +152,7 @@ class GridElementBuilder {
         moveHistory.MoveIsPrevious(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
         moveHistory.MoveIsStartIndex(row, column) && moveHistory.revertToMove(row, column); // duplicate of above?
 
-        moveHistory.MoveIsEndIndex(row, column) && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.
+        // moveHistory.MoveIsEndIndex(row, column) && alert(`Completed with a score of ${moveHistory.getLatestMove().score}!`); // TODO add winning UI with Submit & Keep Trying options.}
         
         ui.renderState();
     }
@@ -224,13 +224,22 @@ class ScoreElementBuilder {
     }
 
     static updateScoreElement(scoreElement, moveHistory) {
-        let score = moveHistory.getLatestMove().score;
+        let latestMove = moveHistory.getLatestMove();
 
         // truncate score to two decimal places
+        let score = latestMove.score;
         let integer = Math.trunc(score);
         let decimal = score - integer;
         let roundedDecimal = Math.trunc(decimal * 100) / 100;
         let roundedScore = integer + roundedDecimal;
+
+        // style score if sequence is complete
+        if (moveHistory.MoveIsEndIndex(latestMove.row, latestMove.column)) {
+            scoreElement.classList.add("finalScore");
+        } else {
+            scoreElement.classList.remove("finalScore");
+        }
+
 
         scoreElement.innerText = roundedScore;
     }
