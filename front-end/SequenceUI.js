@@ -31,6 +31,7 @@ class OperatorQueueElementBuilder {
     constructor(operatorQueue) {
 
         let operatorQueueElement = this.buildDiv(operatorQueue.operators);
+        operatorQueueElement.classList.add("operators");
         return operatorQueueElement;
     }
 
