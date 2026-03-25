@@ -165,6 +165,10 @@ class GridElementBuilder {
             element.classList.remove("moved");
             element.classList.remove("latestMove");
             element.classList.remove("previousMove");
+
+            if (element.textContent.length > 1) {
+                element.textContent = element.textContent[1];
+            }
         }
     }
 
@@ -189,6 +193,11 @@ class GridElementBuilder {
             }
 
             element.classList.add("moved");
+
+            let operatorSymbol = moveHistory.operatorQueue.getOperator(move.operatorIndex);
+            let cellNumber = moveHistory.grid.getCell(move.row, move.column).number;
+
+            element.textContent = operatorSymbol + cellNumber;
 
             if (i == moves.length - 1) {
                 element.classList.add("latestMove");
