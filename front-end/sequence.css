@@ -18,7 +18,19 @@ td {
     text-align: center;
     font-size: 24px;
 
-    text-overflow: clip;
+    /* 
+        Box width & Number position.
+        This is a hacky prototype.
+
+        white-space is set to "preserve" because an additional space is added to numbers when an operation symbol is added
+        that way they are centered as +4_ instead of +4, and it reduces the horizontal jitter.
+        Really, I should just make operation symbols a separate element that are added with their own rules.
+
+        the width is set to 25%, which assumes that the board is 4 cells wide.
+        It probably will be, but this is dirty too.
+    */
+    white-space: pre;
+    width: 25%;
 }
 
 #score {
@@ -46,6 +58,7 @@ td {
 
 .moved {
     background-color: rgb(0, 100, 150);
+    color: white;
 }
 
 
@@ -63,6 +76,8 @@ td {
 
 .latestMove {
     background-color: lightblue;
+    color: gray;
+    font-weight: 800;
 }
 
 .previousMove {
