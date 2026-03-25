@@ -210,6 +210,13 @@ class ScoreElementBuilder {
 
     static updateScoreElement(scoreElement, moveHistory) {
         let score = moveHistory.getLatestMove().score;
-        scoreElement.innerText = `SCORE: ${score}`;
+
+        // truncate score to two decimal places
+        let integer = Math.trunc(score);
+        let decimal = score - integer;
+        let roundedDecimal = Math.trunc(decimal * 100) / 100;
+        let roundedScore = integer + roundedDecimal;
+
+        scoreElement.innerText = roundedScore;
     }
 }
