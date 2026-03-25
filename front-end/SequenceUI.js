@@ -197,10 +197,13 @@ class GridElementBuilder {
 
             element.classList.add("moved");
 
-            let operatorSymbol = moveHistory.operatorQueue.getOperator(move.operatorIndex);
-            let cellNumber = moveHistory.grid.getCell(move.row, move.column).number;
-
-            element.textContent = operatorSymbol + cellNumber;
+            // Add operator symbol
+            if (i > 0) {
+                let operatorSymbol = moveHistory.operatorQueue.getOperator(move.operatorIndex);
+                let cellNumber = moveHistory.grid.getCell(move.row, move.column).number;
+                element.textContent = `${operatorSymbol}${cellNumber}  `;
+            }
+            
 
             if (i == moves.length - 1) {
                 element.classList.add("latestMove");
