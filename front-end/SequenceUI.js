@@ -227,11 +227,11 @@ class ScoreElementBuilder {
     static updateScoreElement(scoreElement, moveHistory) {
         let latestMove = moveHistory.getLatestMove();
 
-        // truncate score to two decimal places
+        // round score to two decimal places
         let score = latestMove.score;
         let integer = Math.trunc(score);
         let decimal = score - integer;
-        let roundedDecimal = Math.trunc(decimal * 100) / 100;
+        let roundedDecimal = Math.round(decimal * 100) / 100;
         let roundedScore = integer + roundedDecimal;
 
         // style score if sequence is complete
