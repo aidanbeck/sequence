@@ -107,3 +107,8 @@ td {
     box-shadow: 0;
     color: white;
 }
+
+p {
+    margin-top: 2%;
+    text-align: center;
+}
