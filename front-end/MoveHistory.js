@@ -52,6 +52,11 @@ export default class MoveHistory {
             throw Error(`Cannot move to row: ${row}, column: ${column}, cell is obstructed!`);
         }
 
+        // Check that game is not already won
+        if (this.MoveIsEndIndex(latestMove.row, latestMove.column)) {
+            throw Error(`Cannot move after game has already won`);
+        }
+
         // TODO: Check that move is in bounds
 
         return true;
