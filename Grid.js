@@ -8,8 +8,8 @@ class Cell {
 }
 
 export default class Grid {
-    constructor(rows, columns, obstacleCount = Math.floor( this.random() * 4), seed = (new Date()).toDateString()) {
-        
+    constructor(rows, columns, obstacleCount = Math.floor( this.random() * 4), seed = 0) {
+
         // RNG
         const dailyRandomizer = new Randomizer( seed );
         this.random = dailyRandomizer.getNumber;

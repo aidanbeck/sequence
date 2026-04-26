@@ -3,9 +3,17 @@ import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import SequenceUI from './SequenceUI.js';
 
+// Daily Seed
+let today = new Date();
+let seed = "" + today.getFullYear() + today.getMonth() + today.getDate();
+seed = Number(seed);
+
 let GAME_OPERATORQUEUE = new OperatorQueue();
-let GAME_GRID = new Grid(4, 6, 2);
+let GAME_GRID = new Grid(4, 6, 2, seed);
 let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORQUEUE);
+
+let UI = new SequenceUI(GAME_OPERATORQUEUE, GAME_GRID, GAME_MOVES);
+UI.appendToIds("operatorQueue", "grid", "score");
 
 /*
     This is a band-aid, setting GAME_MOVES to a global variable.
@@ -16,5 +24,17 @@ let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORQUEUE);
 */
 globalThis.GAME_MOVES = GAME_MOVES;
 
-let UI = new SequenceUI(GAME_OPERATORQUEUE, GAME_GRID, GAME_MOVES);
-UI.appendToIds("operatorQueue", "grid", "score");
+
+
+// Allow incrementing the day for playtesting
+function incrementDate() {
+    seed++;
+    console.log(seed);
+
+    let newGrid = new Grid(4, 6, 2, seed);
+    let newUI = new SequenceUI(GAME_OPERATORQUEUE, newGrid, GAME_MOVES);
+
+    document.getElementById("grid").innerHTML = "";
+    document.getElementById("grid").appendChild(newUI.gridElement);
+}
+globalThis.INCREMENT_DATE = incrementDate;
