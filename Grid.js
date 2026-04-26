@@ -1,13 +1,19 @@
+import Randomizer from './Randomizer.js';
+
 class Cell {
-    constructor() {
-        this.number = Math.floor( Math.random() * 9) + 1; // generate random integer between 1 and 9
+    constructor(number) {
+        this.number = number;
         this.obstructed = false;
     }
 }
 
 export default class Grid {
-    constructor(rows, columns, obstacleCount = Math.floor( Math.random() * 4)) {
+    constructor(rows, columns, obstacleCount = Math.floor( this.random() * 4), seed = (new Date()).toDateString()) {
         
+        // RNG
+        const dailyRandomizer = new Randomizer( seed );
+        this.random = dailyRandomizer.getNumber;
+
         // Generation
         this.cells = this.initializeCells(rows, columns);
         this.spawnObstacles(obstacleCount); // may add an obstacleChance -> obstacleCount step.
@@ -15,6 +21,8 @@ export default class Grid {
         // Indexes
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
+
+
     }
 
     initializeCells(rows, columns) {
@@ -22,7 +30,8 @@ export default class Grid {
         for (let i = 0; i < columns; i++) {
             cells[i] = [];
             for (let j = 0; j < rows; j++) {
-                cells[i][j] = new Cell();
+                let randomNumber = Math.floor( this.random() * 9) + 1; // generate random integer between 1 and 9
+                cells[i][j] = new Cell(randomNumber);
             }
         }
         return cells;
@@ -73,8 +82,8 @@ export default class Grid {
 
     randomCellIndex() {
         return {
-            row: Math.floor( Math.random() * this.cells.length),
-            column: Math.floor( Math.random() * this.cells[0].length)
+            row: Math.floor( this.random() * this.cells.length),
+            column: Math.floor( this.random() * this.cells[0].length)
         }
     }
 
