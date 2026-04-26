@@ -12,6 +12,7 @@ export default class Grid {
 
         // RNG
         const dailyRandomizer = new Randomizer( seed );
+        this.seed = seed; // for ui to read, might remove
         this.random = dailyRandomizer.getNumber;
 
         // Generation

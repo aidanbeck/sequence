@@ -18,6 +18,8 @@ export default class SequenceUI {
         document.getElementById(operatorQueueElementId).appendChild(this.operatorQueueElement);
         document.getElementById(gridElementId).appendChild(this.gridElement);
         document.getElementById(scoreElementId).appendChild(this.scoreElement);
+
+        document.getElementById("title").innerHTML = `SEQUENCE ${this.grid.seed}`;
     }
 
     renderState() {

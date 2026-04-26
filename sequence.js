@@ -31,10 +31,15 @@ function incrementDate() {
     seed++;
     console.log(seed);
 
+    let newQueue = new OperatorQueue();
     let newGrid = new Grid(4, 6, 2, seed);
-    let newUI = new SequenceUI(GAME_OPERATORQUEUE, newGrid, GAME_MOVES);
+    let newMoves = new MoveHistory(newGrid, newQueue);
 
+    document.getElementById("operatorQueue").innerHTML = "";
     document.getElementById("grid").innerHTML = "";
-    document.getElementById("grid").appendChild(newUI.gridElement);
+    document.getElementById("score").innerHTML = "";
+
+    let newUI = new SequenceUI(newQueue, newGrid, newMoves);
+    newUI.appendToIds("operatorQueue", "grid", "score");
 }
 globalThis.INCREMENT_DATE = incrementDate;
