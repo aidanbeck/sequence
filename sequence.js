@@ -43,3 +43,4 @@ function incrementDate() {
     newUI.appendToIds("operatorQueue", "grid", "score");
 }
 globalThis.INCREMENT_DATE = incrementDate;
+globalThis.UI = UI;

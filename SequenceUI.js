@@ -27,6 +27,32 @@ export default class SequenceUI {
         GridElementBuilder.updateCellElements(this.gridElement, this.moveHistory);
         ScoreElementBuilder.updateScoreElement(this.scoreElement, this.moveHistory);
     }
+
+    getShareString(moves, cells, score, date, place, playerCount) {
+
+        let resultString = "notebeck.com/sequence\n\n";
+
+        for (let i = 0; i < cells.length; i++) {
+            for (let j = 0; j < cells[i].length; j++) {
+                let cell = cells[i][j];
+                if (cell.obstructed) { resultString += "⬛"; continue; }
+                if ( moves.MoveIsEndIndex(i, j) ) { resultString += "🟩"; continue; }
+                // if ( moves.MoveIsStartIndex(i, j) ) { resultString += "S"; continue; }
+                if ( moves.MoveIsPreexisting(i, j) ) { resultString += "🟦"; continue; }
+                resultString += "⬜";
+            }
+
+            if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
+            if (i == 2) { resultString += ` ${place.toLocaleString('en-us')}nd place`; } // needs nd, th, st, etc
+            if (i == 3) { resultString += ` ${playerCount.toLocaleString('en-us')}`; }
+            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}🥇`; }
+            resultString += "\n";
+
+        }
+
+        return resultString;
+    }
+
 }
 
 class OperatorQueueElementBuilder {
