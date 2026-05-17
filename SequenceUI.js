@@ -82,12 +82,22 @@ class OperatorQueueElementBuilder {
 
         const moves = moveHistory.moves;
 
+        let lastOperatorIndex = 0;
+
         for (let move of moves) {
             let number = moveHistory.grid.getCell(move.row, move.column).number;
             let operator = moveHistory.operatorQueue.getOperator(move.operatorIndex);
 
+            lastOperatorIndex = move.operatorIndex;
+
             historyString += `${number} ${operator}`;
         }
+
+        let nextIndex = moveHistory.operatorQueue.getNextIndex(lastOperatorIndex);
+        historyString += ` ${moveHistory.operatorQueue.getOperator(nextIndex)}`;
+        
+        nextIndex = moveHistory.operatorQueue.getNextIndex(nextIndex);
+        historyString += ` ${moveHistory.operatorQueue.getOperator(nextIndex)}`;
 
         return historyString;
     }
@@ -100,7 +110,7 @@ class OperatorQueueElementBuilder {
 
         operatorQueueElement.querySelectorAll(".operator")[operatorIndex].classList.add("selectedOperator");
 
-        console.log(this.getHistoryString(moveHistory));
+        // operatorQueueElement.innerHTML = this.getHistoryString(moveHistory);
     }
 }
 
