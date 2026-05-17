@@ -7,7 +7,7 @@ export default class SequenceUI {
         this.grid = grid;
         this.moveHistory = moveHistory;
 
-        this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue);
+        this.operatorQueueElement = new OperatorQueueElementBuilder(operatorQueue, moveHistory);
         this.gridElement = new GridElementBuilder(grid, this);
         this.scoreElement = new ScoreElementBuilder(moveHistory);
 
@@ -76,6 +76,22 @@ class OperatorQueueElementBuilder {
         return operatorQueueElement;
     }
 
+    static getHistoryString(moveHistory) {
+
+        let historyString = "";
+
+        const moves = moveHistory.moves;
+
+        for (let move of moves) {
+            let number = moveHistory.grid.getCell(move.row, move.column).number;
+            let operator = moveHistory.operatorQueue.getOperator(move.operatorIndex);
+
+            historyString += `${number} ${operator}`;
+        }
+
+        return historyString;
+    }
+
     static updateOperatorsElement(operatorQueueElement, moveHistory) {
         
         let operatorIndex = moveHistory.getLatestMove().operatorIndex;
@@ -83,6 +99,8 @@ class OperatorQueueElementBuilder {
         selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
 
         operatorQueueElement.querySelectorAll(".operator")[operatorIndex].classList.add("selectedOperator");
+
+        console.log(this.getHistoryString(moveHistory));
     }
 }
 
@@ -274,6 +292,6 @@ class ScoreElementBuilder {
         }
 
 
-        scoreElement.innerText = roundedScore;
+        scoreElement.innerText = "= " + roundedScore.toLocaleString('en-us');
     }
 }
