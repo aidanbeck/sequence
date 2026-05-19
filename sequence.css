@@ -1,44 +1,20 @@
+html, body {
+    height: 100%;
+}
+
 body {
-    margin: 1%;
-    overflow: hidden;
     display: flex;
-justify-content: center;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .game {
     max-width: 400px;
-    background-color: rgba(200, 200, 255, 0.2);
     padding: 1%;
 }
 
-table {
-    width: 100%;
-    border: 2px solid black;
-    border-collapse: collapse;
-
-    user-select: none;
-}
-
-td {
-    border: 1px solid gray;
-    height: 80px;
-    text-align: center;
-    font-size: 24px;
-
-    /* 
-        Box width & Number position.
-        This is a hacky prototype.
-
-        white-space is set to "preserve" because an additional space is added to numbers when an operation symbol is added
-        that way they are centered as +4_ instead of +4, and it reduces the horizontal jitter.
-        Really, I should just make operation symbols a separate element that are added with their own rules.
-
-        the width is set to 25%, which assumes that the board is 4 cells wide.
-        It probably will be, but this is dirty too.
-    */
-    white-space: pre;
-    width: 25%;
-}
+/* INFO */
 
 #score {
     font-weight: bold;
@@ -77,19 +53,58 @@ td {
     transition: 0.2s ease-in-out;
 }
 
-.moved {
-    background-color: rgb(0, 100, 150);
-    color: white;
+/* GRID */
+
+table {
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+
+    background-color: rgba(200, 200, 255, 0.3);
+
+
+    user-select: none;
 }
 
+td {
+    border: 1px solid gray;
+    height: 80px;
+    text-align: center;
+    font-size: 24px;
+
+    /* 
+        Box width & Number position.
+        This is a hacky prototype.
+
+        white-space is set to "preserve" because an additional space is added to numbers when an operation symbol is added
+        that way they are centered as +4_ instead of +4, and it reduces the horizontal jitter.
+        Really, I should just make operation symbols a separate element that are added with their own rules.
+
+        the width is set to 25%, which assumes that the board is 4 cells wide.
+        It probably will be, but this is dirty too.
+    */
+    white-space: pre;
+    width: 25%;
+}
 
 .obstructed {
     background-color: black;
 }
 
+.moved {
+    background-color: rgb(0, 100, 150);
+    color: white;
+}
+
 .previousMove {
     /* background-color: rgb(0, 150, 225); */
     background-color: lightblue;
+}
+
+.latestMove {
+    font-weight: 800;
+    color: white;
+    background-color: green;
 }
 
 .start {
@@ -105,12 +120,6 @@ td {
     image-rendering: pixelated;
 }
 
-.latestMove {
-    font-weight: 800;
-    color: white;
-    background-color: green;
-}
-
 .start.latestMove {
 
     background-color: white;
@@ -118,12 +127,12 @@ td {
     color: green;
 }
 
-
 .end.moved {
     background-image: url("greenChecker.bmp");
     font-weight: 800;
     color: white;
 }
+
 
 p {
     margin-top: 2%;
