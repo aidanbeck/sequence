@@ -15,9 +15,3 @@ export default class Randomizer {
         }
     }
 }
-
-// let day = new Date();
-// for (let i = 1; i < 365; i++) {
-//     day.setDate(day.getDate() + 1);
-//     console.log(day.toDateString());
-// }

@@ -1,10 +1,22 @@
 import Randomizer from './Randomizer.js';
 
 class Cell {
-    constructor(number) {
-        this.number = number;
+    constructor() {
         this.obstructed = false;
     }
+    randomize(random) {
+        this.number = Math.floor( random() * 9) + 1; // generate random integer between 1 and 9
+    }
+    flip() {
+        this.number = -this.number;
+    }
+    makeBig() {
+        this.number += 11;
+    }
+    zero() {
+        this.number = 0;
+    }
+
 }
 
 export default class Grid {
@@ -22,11 +34,23 @@ export default class Grid {
         // Indexes
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
-
         // set startIndex to 0
         this.cells[this.startIndex.row][this.startIndex.column].number = 0;
 
+        // Rare Alterations
+        let spawnZero = this.getRandomPercentage() < 15;
+        let spawnBigNumber = this.getRandomPercentage() < 15;
+        let spawnNegatives = this.getRandomPercentage() < 15;
+        
+        // !!! the logic is sound, but negative and double digit numbers don't display properly
+        spawnZero && this.getRandomCell().zero();
+        spawnBigNumber && this.getRandomCell().makeBig();
+        spawnNegatives && this.getRandomCell().flip();
+        spawnNegatives && this.getRandomCell().flip();
+    }
 
+    getRandomPercentage() {
+        return Math.floor( this.random() * 101 );
     }
 
     initializeCells(rows, columns) {
@@ -34,8 +58,9 @@ export default class Grid {
         for (let i = 0; i < columns; i++) {
             cells[i] = [];
             for (let j = 0; j < rows; j++) {
-                let randomNumber = Math.floor( this.random() * 9) + 1; // generate random integer between 1 and 9
-                cells[i][j] = new Cell(randomNumber);
+                const cell = new Cell();
+                cell.randomize(this.random);
+                cells[i][j] = cell;
             }
         }
         return cells;
@@ -43,12 +68,12 @@ export default class Grid {
 
     spawnObstacles(obstacleCount) {
         for (let i = 0; i < obstacleCount; i++) {
-            let cellIndex;
+            let cell;
             do {
-                cellIndex = this.randomCellIndex();
-            } while (this.isObstructed(cellIndex.row, cellIndex.column));
+                cell = this.getRandomCell();
+            } while (cell.obstructed);
 
-            this.cells[cellIndex.row][cellIndex.column].obstructed = true;
+            cell.obstructed = true;
         }
     }
 
@@ -56,7 +81,7 @@ export default class Grid {
 
         let startIndex;
         do {
-            startIndex = this.randomCellIndex();
+            startIndex = this.getRandomIndex();
         } while (this.isObstructed(startIndex.row, startIndex.column));
 
         return startIndex;
@@ -70,7 +95,7 @@ export default class Grid {
         let endIndex;
         let startEndDistance;
         do {
-            endIndex = this.randomCellIndex();
+            endIndex = this.getRandomIndex();
 
             startEndDistance = Math.sqrt( 
                 Math.pow(
@@ -84,7 +109,7 @@ export default class Grid {
         return endIndex;
     }
 
-    randomCellIndex() {
+    getRandomIndex() {
         return {
             row: Math.floor( this.random() * this.cells.length),
             column: Math.floor( this.random() * this.cells[0].length)
@@ -93,6 +118,11 @@ export default class Grid {
 
     getCell(row, column) {
         return this.cells[row][column];
+    }
+
+    getRandomCell() {
+        const randomIndex = this.getRandomIndex();
+        return this.getCell(randomIndex.row, randomIndex.column)
     }
 
     isObstructed(row, column) {

@@ -9,14 +9,12 @@ UI
 * Submission Box: Triggered by letting go of finished sequence.
 * Results Box
 * Change font & colors
+* Make starting cell say "Start"
+* Fix display of multi-character numbers
 
 Gameplay
 * Block impossible spaces
 * Bigger board on Saturdays
-* Rare Mechanics
-    * Big Numbers (10-20)
-    * Negative Numbers (occur in pairs)
-    * Zero
 
 Leaderboard
 * SQL "solves" Table
