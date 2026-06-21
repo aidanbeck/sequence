@@ -3,7 +3,7 @@ import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import SequenceUI from './SequenceUI.js';
 
-const RANDOMIZE_ON_REFRESH = true;
+const RANDOMIZE_ON_REFRESH = false;
 
 // Daily Seed
 let today = new Date();
