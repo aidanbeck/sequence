@@ -23,6 +23,9 @@ export default class Grid {
         this.startIndex = this.spawnStartIndex();
         this.endIndex = this.spawnEndIndex();
 
+        // set startIndex to 0
+        this.cells[this.startIndex.row][this.startIndex.column].number = 0;
+
 
     }
 

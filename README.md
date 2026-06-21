@@ -11,7 +11,6 @@ UI
 * Change font & colors
 
 Gameplay
-* Start on 0
 * Block impossible spaces
 * Bigger board on Saturdays
 * Rare Mechanics
