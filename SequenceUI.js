@@ -272,6 +272,10 @@ class GridElementBuilder {
             if (i == moves.length - 2) {
                 element.classList.add("previousMove");
             }
+
+            if (i == 0) { // START CELL
+                element.innerText = "START";
+            }
         }
     }
     

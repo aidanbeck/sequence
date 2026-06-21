@@ -9,11 +9,11 @@ UI
 * Submission Box: Triggered by letting go of finished sequence.
 * Results Box
 * Change font & colors
-* Make starting cell say "Start"
 * Fix display of multi-character numbers
 
 Gameplay
-* Bigger board on Saturdays
+* Bigger board on Saturdays.
+* Lose if you divide by zero.
 
 Leaderboard
 * SQL "solves" Table
