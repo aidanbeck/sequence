@@ -3,14 +3,14 @@ import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import SequenceUI from './SequenceUI.js';
 
-const DEBUG_MODE = true;
+const RANDOMIZE_ON_REFRESH = true;
 
 // Daily Seed
 let today = new Date();
 let seed = "" + today.getFullYear() + today.getMonth() + today.getDate();
 seed = Number(seed);
 
-if (DEBUG_MODE) {
+if (RANDOMIZE_ON_REFRESH) {
     seed = Math.random() * 10; // temporary
 }
 
