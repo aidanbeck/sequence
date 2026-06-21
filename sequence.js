@@ -3,10 +3,16 @@ import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import SequenceUI from './SequenceUI.js';
 
+const DEBUG_MODE = true;
+
 // Daily Seed
 let today = new Date();
 let seed = "" + today.getFullYear() + today.getMonth() + today.getDate();
 seed = Number(seed);
+
+if (DEBUG_MODE) {
+    seed = Math.random() * 10; // temporary
+}
 
 let GAME_OPERATORQUEUE = new OperatorQueue();
 let GAME_GRID = new Grid(4, 6, 2, seed);
