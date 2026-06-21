@@ -13,7 +13,6 @@ UI
 * Fix display of multi-character numbers
 
 Gameplay
-* Block impossible spaces
 * Bigger board on Saturdays
 
 Leaderboard

@@ -30,6 +30,7 @@ export default class Grid {
         // Generation
         this.cells = this.initializeCells(rows, columns);
         this.spawnObstacles(obstacleCount); // may add an obstacleChance -> obstacleCount step.
+        this.blockObstructedCells();
 
         // Indexes
         this.startIndex = this.spawnStartIndex();
@@ -127,6 +128,42 @@ export default class Grid {
 
     isObstructed(row, column) {
         return this.getCell(row, column).obstructed;
+    }
+
+    isSpaceFree(row, column) {
+
+        // Out of Bounds
+        if (row < 0 || column < 0 || row >= this.cells.length || column >= this.cells[0].length) {
+            return false;
+        }
+
+        // Obstructed
+        return !this.isObstructed(row, column);
+    }
+
+    countAdjacentFreeSpaces(row, column) {
+
+        let freeSpacesCount = 0;
+
+        this.isSpaceFree(row - 1, column) && freeSpacesCount++;
+        this.isSpaceFree(row + 1, column) && freeSpacesCount++;
+        this.isSpaceFree(row, column - 1) && freeSpacesCount++;
+        this.isSpaceFree(row, column + 1) && freeSpacesCount++;
+
+        return freeSpacesCount;
+    }
+
+    blockObstructedCells() {
+
+        for (let row = 0; row < this.cells.length; row++) {
+            for (let column = 0; column < this.cells[0].length; column++) {
+                const adjacentFreeSpacesCount = this.countAdjacentFreeSpaces(row, column);
+                if (adjacentFreeSpacesCount < 2) {
+                    this.getCell(row, column).obstructed = true;
+                }
+            }
+        }
+
     }
 
     printCells() {
