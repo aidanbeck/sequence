@@ -120,9 +120,8 @@ class GridElementBuilder {
         let tableElement = this.buildTable(grid, ui);
 
         tableElement.addEventListener("mousedown", this.mouseDown);
-        tableElement.addEventListener("mouseup", this.mouseUp);
-
         tableElement.addEventListener("touchstart", this.mouseDown);
+        tableElement.addEventListener("mouseup", this.mouseUp);
         tableElement.addEventListener("touchend", this.mouseUp); 
         tableElement.addEventListener("touchmove", this.touchMove);
 
@@ -152,39 +151,43 @@ class GridElementBuilder {
         let tableElement = document.createElement("table");
         tableElement.ui = ui; // allows cellElements to reference ui reference upon selection.
 
-        let cells = grid.cells;
-        for (let rowIndex = 0; rowIndex < cells.length; rowIndex++) {
+        const rowLength = grid.cells.length;
+        const columnLength = grid.cells[0].length;
+
+        for (let i = 0; i < rowLength; i++) {
 
             let rowElement = document.createElement("tr");
-            let row = cells[rowIndex];
-
-            for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
-
-                let cellElement = document.createElement("td");
-                let cell = row[columnIndex];
-
-                let isObstructed = grid.isObstructed(rowIndex, columnIndex);
-                let isStart = (rowIndex == grid.startIndex.row) && (columnIndex == grid.startIndex.column);
-                let isEnd = (rowIndex == grid.endIndex.row) && (columnIndex == grid.endIndex.column);
-
-                isObstructed && cellElement.classList.add("obstructed");
-                isStart && cellElement.classList.add("start");
-                isEnd && cellElement.classList.add("end");
-
-                cellElement.innerText = cell.number;
-                cellElement.id = `${rowIndex}|${columnIndex}`;
-
-                cellElement.addEventListener('pointerenter', this.selectCell);
-                cellElement.addEventListener('click', this.selectCell);
-
-                rowElement.appendChild(cellElement);
-
+            for (let j = 0; j < columnLength; j++) {   
+                const cell = this.buildCell(i, j, grid);
+                rowElement.appendChild(cell);
             }
-
             tableElement.appendChild(rowElement);
         }
-
         return tableElement;
+    }
+
+    buildCell(rowIndex, columnIndex, grid) {
+
+        let cellElement = document.createElement("td");
+        let cell = grid.cells[rowIndex][columnIndex];
+
+        let isObstructed = grid.isObstructed(rowIndex, columnIndex);
+        let isStart = (rowIndex == grid.startIndex.row) && (columnIndex == grid.startIndex.column);
+        let isEnd = (rowIndex == grid.endIndex.row) && (columnIndex == grid.endIndex.column);
+
+        isObstructed && cellElement.classList.add("obstructed");
+        isStart && cellElement.classList.add("start");
+        isEnd && cellElement.classList.add("end");
+
+        cellElement.innerText = cell.number;
+        cellElement.id = `${rowIndex}|${columnIndex}`;
+
+        cellElement.addEventListener('pointerenter', this.selectCell);
+        cellElement.addEventListener('click', this.selectCell);
+
+        cellElement.number = cell.number; // store number in cell. Hacky!
+
+        return cellElement;
     }
 
     selectCell(event) {
@@ -226,9 +229,7 @@ class GridElementBuilder {
             element.classList.remove("latestMove");
             element.classList.remove("previousMove");
 
-            if (element.textContent.length > 1) {
-                element.textContent = element.textContent[1];
-            }
+            element.textContent = element.number;
         }
     }
 
@@ -252,30 +253,26 @@ class GridElementBuilder {
                 }
             }
 
+            const isLatestMove = i == moves.length - 1;
+            const isPreviousMove = i == moves.length - 2;
+            const isStartingCell = i == 0;
+
             element.classList.add("moved");
+            isLatestMove && element.classList.add("latestMove");
+            isPreviousMove && element.classList.add("previousMove");
+            isStartingCell && (element.innerText = "START"); // Should this be here?
 
             // Add operator symbol
-            if (i > 0) {
+            if (!isStartingCell) {
 
-
-                let lastOperatorIndex = moves[i - 1].operatorIndex; // get operator index of the previous move in the history
-                let operatorSymbol = moveHistory.operatorQueue.getOperator(lastOperatorIndex);
+                let previousOperatorIndex = moves[i - 1].operatorIndex; // get operator index of the previous move in the history
+                let operatorSymbol = moveHistory.operatorQueue.getOperator(previousOperatorIndex);
                 
                 let cellNumber = moveHistory.grid.getCell(move.row, move.column).number;
+
                 element.textContent = `${operatorSymbol}${cellNumber}  `;
             }
-            
 
-            if (i == moves.length - 1) {
-                element.classList.add("latestMove");
-            }
-            if (i == moves.length - 2) {
-                element.classList.add("previousMove");
-            }
-
-            if (i == 0) { // START CELL
-                element.innerText = "START";
-            }
         }
     }
     
