@@ -1,19 +1,25 @@
 A daily number puzzle by Aidan & Carter Beck.
 
+# Roadmap
+* M - Fix display of multi-character numbers. Revamp Operations Display
+* T - Pop-up Box
+* W - SQL Tables
+* H - Pop-up Box variants
+* F - Font, Colors, Sound
+
 # Requirements
 
 UI
 * Revamp Operations Display
-* Pop-Up Box HTML & CSS
-* Tutorial Box
-* Submission Box: Triggered by letting go of finished sequence.
-* Results Box
-* Change font & colors
 * Fix display of multi-character numbers
+* Change font & colors
+* Pop-Up Box HTML & CSS
+    * Tutorial Box
+    * Submission Box: Triggered by letting go of finished sequence.
+    * Results Box
 
 Gameplay
-* Bigger board on Saturdays.
-* Lose if you divide by zero.
+* Lose if you divide by zero. Trigger Submission box with specific adjustments
 
 Leaderboard
 * SQL "solves" Table
