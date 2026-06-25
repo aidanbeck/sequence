@@ -116,7 +116,7 @@ td {
 }
 
 .end {
-    background-image: url("checker.bmp");
+    background-image: url("checker.jpg");
     background-size: 100% 100%;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
