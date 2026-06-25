@@ -62,7 +62,6 @@ table {
 
     background-color: rgba(200, 200, 255, 0.3);
 
-
     user-select: none;
 }
 
@@ -120,6 +119,7 @@ td {
     background-image: url("checker.bmp");
     background-size: 100% 100%;
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 .start.latestMove {
