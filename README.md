@@ -1,17 +1,15 @@
 A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
-* M - Fix display of multi-character numbers. Revamp Operations Display
-* T - Pop-up Box
-* W - SQL Tables
-* H - Pop-up Box variants
-* F - Font, Colors, Sound
+* H - Revamp Operations Display
+* F - Pop-up Box
+* S - Pop-up Box variants
+* S - Font, Colors, Sound, Server Logic
 
 # Requirements
 
 UI
 * Revamp Operations Display
-* Fix display of multi-character numbers
 * Change font & colors
 * Pop-Up Box HTML & CSS
     * Tutorial Box
