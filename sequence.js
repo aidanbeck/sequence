@@ -1,25 +1,27 @@
 import OperatorQueue from './OperatorQueue.js';
 import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
-import SequenceUI from './SequenceUI.js';
+import ElementUpdater from './ElementUpdater.js';
 
-const RANDOMIZE_ON_REFRESH = false;
+const RANDOMIZE_ON_REFRESH = true;
 
 // Daily Seed
-let today = new Date();
+const today = new Date();
 let seed = "" + today.getFullYear() + today.getMonth() + today.getDate();
 seed = Number(seed);
 
-if (RANDOMIZE_ON_REFRESH) {
-    seed = Math.random() * 10; // temporary
+RANDOMIZE_ON_REFRESH && ( seed = Math.random() * 1000 );
+
+class GameState {
+    constructor(seed, operatorsElement, scoreElement, gridElement) {
+        this.grid = new Grid(4, 6, 2, seed);
+        this.operatorQueue = new OperatorQueue();
+        this.moveHistory = new MoveHistory(this.grid, this.operatorQueue)
+    }
 }
 
-let GAME_OPERATORQUEUE = new OperatorQueue();
-let GAME_GRID = new Grid(4, 6, 2, seed);
-let GAME_MOVES = new MoveHistory(GAME_GRID, GAME_OPERATORQUEUE);
-
-let UI = new SequenceUI(GAME_OPERATORQUEUE, GAME_GRID, GAME_MOVES);
-UI.appendToIds("operatorQueue", "grid", "score");
+const state = new GameState(seed);
+const updater = new ElementUpdater(state, operators, score, grid);
 
 /*
     This is a band-aid, setting GAME_MOVES to a global variable.
@@ -28,25 +30,4 @@ UI.appendToIds("operatorQueue", "grid", "score");
 
     This is also useful for debugging, as it exposes state to the developer console.
 */
-globalThis.GAME_MOVES = GAME_MOVES;
-
-
-
-// Allow incrementing the day for playtesting
-function incrementDate() {
-    seed++;
-    console.log(seed);
-
-    let newQueue = new OperatorQueue();
-    let newGrid = new Grid(4, 6, 2, seed);
-    let newMoves = new MoveHistory(newGrid, newQueue);
-
-    document.getElementById("operatorQueue").innerHTML = "";
-    document.getElementById("grid").innerHTML = "";
-    document.getElementById("score").innerHTML = "";
-
-    let newUI = new SequenceUI(newQueue, newGrid, newMoves);
-    newUI.appendToIds("operatorQueue", "grid", "score");
-}
-globalThis.INCREMENT_DATE = incrementDate;
-globalThis.UI = UI;
+globalThis.GAME_STATE = state;
