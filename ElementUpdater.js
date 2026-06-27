@@ -7,6 +7,18 @@ export default class ElementUpdater {
         this.gridElement = gridElement;
 
         this.updateCells();
+
+        gridElement.addEventListener("pointerdown", this.onPointerDown);
+    }
+
+    onPointerDown = (e) => { // arrow function preserves access to state
+        const moveHistory = this.state.moveHistory;
+
+        const cellElement = e.target;
+        const row = Number(cellElement.id.split("|")[0]);
+        const column = Number(cellElement.id.split("|")[1]);
+
+        moveHistory.makeMove(row, column);
     }
 
     updateCells() {
