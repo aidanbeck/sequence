@@ -6,6 +6,7 @@ export default class ElementUpdater {
         this.scoreElement = scoreElement;
         this.gridElement = gridElement;
 
+        this.updateOperators(); // TODO integrate more cleanly
         this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
@@ -20,23 +21,25 @@ export default class ElementUpdater {
         moveHistory.makeMove(row, column);
 
         this.update();
+        this.incrementOperators(); // TODO integrate more cleanly
     }
 
     update() {
-        this.updateOperators();
+        // this.updateOperators();
         this.updateScore();
         this.updateCells();
         this.updateMoves();
     }
 
     updateOperators() {
+
         const operators = this.state.operators;
         const operatorDivs = this.operatorsElement.children;
 
         for (let i = 0; i < operatorDivs.length; i++) {
             const div = operatorDivs[i];
             const operator = operators.getOperator(i - 4);
-            
+
             div.innerText = operator
 
             div.classList.remove('+');
@@ -44,6 +47,27 @@ export default class ElementUpdater {
             div.classList.remove('÷');
             div.classList.add(operator);
         }
+    }
+
+    incrementOperators() {
+        const operators = this.state.operators;
+        const divs = this.operatorsElement.children;
+        
+        divs[1].classList.add("invisibleOperator");
+        divs[4].classList.add("pastOperator");
+        divs[5].classList.add("currentOperator");
+        divs[8].classList.remove("invisibleOperator");
+
+        const newDiv = document.createElement("div");
+        const newOperator = operators.getOperator(4);
+        newDiv.classList.add("operator");
+        newDiv.classList.add("invisibleOperator");
+        newDiv.classList.add(newOperator);
+        newDiv.innerText = newOperator;
+
+        this.operatorsElement.appendChild(newDiv);
+
+        divs[0].remove();
     }
 
     updateScore() {
