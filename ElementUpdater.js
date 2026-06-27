@@ -25,13 +25,17 @@ export default class ElementUpdater {
     update() {
         this.updateOperators();
         this.updateScore();
-        this.updateMoves();
         this.updateCells();
-
+        this.updateMoves();
     }
 
     updateOperators() {
+        const operators = this.state.operators;
+        const operatorDivs = this.operatorsElement.children;
 
+        for (let i = 0; i < operatorDivs.length; i++) {
+            operatorDivs[i].innerText = operators.getOperator(i - 4);
+        }
     }
 
     updateScore() {
