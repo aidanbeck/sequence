@@ -11,14 +11,65 @@
     <script type="module" src="Grid.js"></script>
     <script type="module" src="MoveHistory.js"></script>
     <script type="module" src="SequenceUI.js" defer></script>
-    <script type="module" src="sequence.js" defer></script>
+    <!-- <script type="module" src="sequence.js" defer></script> -->
 </head>
 <body>
     <div class="game">
-        <div id = "operatorQueue"></div>
-        <div id = "score"></div>
-        <div id = "grid"></div>
-        <p><strong id="title">SEQUENCE</strong><br>A daily puzzle game by Aidan & Carter Beck</p>
+        <div id="operators">
+            <div class="operator invisibleOperator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator"></div>
+            <div class="operator invisibleOperator"></div>
+        </div>
+        <div id="score" class="finalScore">= 0</div>
+        <table id="grid">
+            <tr>
+                <td id="0|0"></td>
+                <td id="0|1"></td>
+                <td id="0|2"></td>
+                <td id="0|3"></td>
+            </tr>
+            <tr>
+                <td id="1|0"></td>
+                <td id="1|1"></td>
+                <td id="1|2"></td>
+                <td id="1|3"></td>
+            </tr>
+            <tr>
+                <td id="2|0"></td>
+                <td id="2|1"></td>
+                <td id="2|2"></td>
+                <td id="2|3"></td>
+            </tr>
+            <tr>
+                <td id="3|0"></td>
+                <td id="3|1"></td>
+                <td id="3|2"></td>
+                <td id="3|3"></td>
+            </tr>
+            <tr>
+                <td id="4|0"></td>
+                <td id="4|1"></td>
+                <td id="4|2"></td>
+                <td id="4|3"></td>
+            </tr>
+            <tr>
+                <td id="5|0"></td>
+                <td id="5|1"></td>
+                <td id="5|2"></td>
+                <td id="5|3"></td>
+            </tr>
+        </table>
+        <p>
+            <strong id="title">SEQUENCE</strong>
+            <br>
+            A daily puzzle game by Aidan & Carter Beck
+        </p>
     </div>
 
 </body>
