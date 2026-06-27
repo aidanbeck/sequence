@@ -23,9 +23,35 @@ export default class ElementUpdater {
     }
 
     update() {
-        this.updateCells();
-        this.updateMoves();
+        this.updateOperators();
         this.updateScore();
+        this.updateMoves();
+        this.updateCells();
+
+    }
+
+    updateOperators() {
+
+    }
+
+    updateScore() {
+        const moveHistory = this.state.moveHistory;
+        const latestMove = moveHistory.getLatestMove();
+        const score = latestMove.score;
+
+        const isSequenceComplete = moveHistory.MoveIsEndIndex(latestMove.row, latestMove.column);
+
+        const integer = Math.trunc(score);
+        const decimal = score - integer;
+        const roundedDecimal = Math.round(decimal * 100) / 100;
+        const roundedScore = integer + roundedDecimal;
+
+        const operator = this.state.operators.getOperator();
+
+        this.scoreElement.innerText = `= ${roundedScore.toLocaleString('en-us')} ${operator}`;
+
+        this.scoreElement.classList.remove("finalScore");
+        isSequenceComplete && this.scoreElement.classList.add("finalScore");
     }
 
     updateCells() {
@@ -68,26 +94,6 @@ export default class ElementUpdater {
 
             // TODO add operator symbol
         }
-    }
-
-    updateScore() {
-        const moveHistory = this.state.moveHistory;
-        const latestMove = moveHistory.getLatestMove();
-        const score = latestMove.score;
-
-        const isSequenceComplete = moveHistory.MoveIsEndIndex(latestMove.row, latestMove.column);
-
-        const integer = Math.trunc(score);
-        const decimal = score - integer;
-        const roundedDecimal = Math.round(decimal * 100) / 100;
-        const roundedScore = integer + roundedDecimal;
-
-        const operator = this.state.operators.getOperator();
-
-        this.scoreElement.innerText = `= ${roundedScore.toLocaleString('en-us')} ${operator}`;
-
-        this.scoreElement.classList.remove("finalScore");
-        isSequenceComplete && this.scoreElement.classList.add("finalScore");
     }
 
 }
