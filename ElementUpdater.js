@@ -34,7 +34,15 @@ export default class ElementUpdater {
         const operatorDivs = this.operatorsElement.children;
 
         for (let i = 0; i < operatorDivs.length; i++) {
-            operatorDivs[i].innerText = operators.getOperator(i - 4);
+            const div = operatorDivs[i];
+            const operator = operators.getOperator(i - 4);
+            
+            div.innerText = operator
+
+            div.classList.remove('+');
+            div.classList.remove('×');
+            div.classList.remove('÷');
+            div.classList.add(operator);
         }
     }
 
