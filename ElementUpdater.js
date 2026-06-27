@@ -6,7 +6,7 @@ export default class ElementUpdater {
         this.scoreElement = scoreElement;
         this.gridElement = gridElement;
 
-        this.updateCells();
+        this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
     }
@@ -17,8 +17,14 @@ export default class ElementUpdater {
         const cellElement = e.target;
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
-
         moveHistory.makeMove(row, column);
+        
+        this.update();
+    }
+
+    update() {
+        this.updateCells();
+        this.updateMoves();
     }
 
     updateCells() {
@@ -37,6 +43,7 @@ export default class ElementUpdater {
                 const  cell = cells[i][j];
 
                 td.innerText = cell.number;
+                td.removeAttribute('class');
                 cell.obstructed && td.classList.add("obstructed");
             }
         }
@@ -44,6 +51,20 @@ export default class ElementUpdater {
         endCell.classList.add("end");
         startCell.classList.add("start");
         startCell.innerText = "START";
+    }
+
+    updateMoves() {
+        const moves = this.state.moveHistory.moves;
+        const latestMove = this.state.moveHistory.getLatestMove();
+        const previousMove = moves[moves.length - 2];
+
+        for (let move of moves) {
+            const td = document.getElementById(`${move.row}|${move.column}`);
+            td.classList.add("moved");
+
+            move == latestMove && td.classList.add("latestMove");
+            move == previousMove && td.classList.add("previousMove");
+        }
     }
 
 }
