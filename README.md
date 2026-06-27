@@ -1,36 +1,19 @@
 A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
-* H - Revamp Operations Display
-* F - Pop-up Box
-* S - Pop-up Box variants
-* S - Font, Colors, Sound, Server Logic
+* Refactor Element Builders - Reduce Comlexity
+ * Use HTML instead of generating everything
+ * Make assumptions about dimensions & operator order
+ * Revamp Operations Display
 
-# Requirements
+* Pop-Up Box
+ * Tutorial Box
+ * Submission Box: Triggered by letting go of finished sequence
+ * Leaderboard Box
 
-UI
-* Revamp Operations Display
-* Change font & colors
-* Pop-Up Box HTML & CSS
-    * Tutorial Box
-    * Submission Box: Triggered by letting go of finished sequence.
-    * Results Box
-
-Gameplay
-* Lose if you divide by zero. Trigger Submission box with specific adjustments
-
-Leaderboard
-* SQL "solves" Table
-* SQL "players" Table
-* Localstorage uuid
-* Cloudflare Worker API
-    * Recieves score & uuid
-    * If uuid is blank, generate a player record and send the uuid to the user.
-    * If the score exists, don't bother authenticating it.
-    * If the score doesn't exist, request moves list.
-    * Player sends lists of moves, which is authenticated in worker.
-    * Add solve to leaderboard
-    * Return solve's place in comparison to other solves.
+* Finish Leaderboard. Connect, Handle Errors & Incorrect Input
+* Font, Colors, Sound
+* Lose if you divide by Zero. Trigger Leaderboard box with specific adjustments.
 
 Sound
 * Sound for hitting Start.
