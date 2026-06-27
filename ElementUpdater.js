@@ -6,7 +6,8 @@ export default class ElementUpdater {
         this.scoreElement = scoreElement;
         this.gridElement = gridElement;
 
-        this.updateOperators(); // TODO integrate more cleanly
+        this.lastMovesCount = 0;
+        this.movesCount = 0;
         this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
@@ -20,36 +21,26 @@ export default class ElementUpdater {
         const column = Number(cellElement.id.split("|")[1]);
         moveHistory.makeMove(row, column);
 
+        this.lastMovesCount = this.movesCount;
+        this.movesCount = moveHistory.moves.length - 1;
+
         this.update();
-        this.incrementOperators(); // TODO integrate more cleanly
     }
 
     update() {
-        // this.updateOperators();
+        this.updateOperators();
         this.updateScore();
         this.updateCells();
         this.updateMoves();
     }
 
     updateOperators() {
-
-        const operators = this.state.operators;
-        const operatorDivs = this.operatorsElement.children;
-
-        for (let i = 0; i < operatorDivs.length; i++) {
-            const div = operatorDivs[i];
-            const operator = operators.getOperator(i - 4);
-
-            div.innerText = operator
-
-            div.classList.remove('+');
-            div.classList.remove('×');
-            div.classList.remove('÷');
-            div.classList.add(operator);
+        if (this.movesCount > this.lastMovesCount) {
+            this.updateOperatorsForwards();
         }
     }
 
-    incrementOperators() {
+    updateOperatorsForwards() {
         const operators = this.state.operators;
         const divs = this.operatorsElement.children;
         
