@@ -18,13 +18,14 @@ export default class ElementUpdater {
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
         moveHistory.makeMove(row, column);
-        
+
         this.update();
     }
 
     update() {
         this.updateCells();
         this.updateMoves();
+        this.updateScore();
     }
 
     updateCells() {
@@ -64,7 +65,27 @@ export default class ElementUpdater {
 
             move == latestMove && td.classList.add("latestMove");
             move == previousMove && td.classList.add("previousMove");
+
+            // TODO add operator symbol
         }
+    }
+
+    updateScore() {
+        const moveHistory = this.state.moveHistory;
+        const latestMove = moveHistory.getLatestMove();
+        const score = latestMove.score;
+
+        const isSequenceComplete = moveHistory.MoveIsEndIndex(latestMove.row, latestMove.column);
+
+        const integer = Math.trunc(score);
+        const decimal = score - integer;
+        const roundedDecimal = Math.round(decimal * 100) / 100;
+        const roundedScore = integer + roundedDecimal;
+
+        this.scoreElement.innerText = "= " + roundedScore.toLocaleString('en-us');
+
+        this.scoreElement.classList.remove("finalScore");
+        isSequenceComplete && this.scoreElement.classList.add("finalScore");
     }
 
 }
