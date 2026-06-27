@@ -43,7 +43,7 @@ export default class MoveHistory {
 
         // Check that move is adjacent to the latest move
         const latestMove = this.getLatestMove();
-        if (!this.MoveIsAdjacent(row, column, latestMove)) {
+        if (!this.isMoveAdjacent(row, column, latestMove)) {
             throw Error(`row: ${row}, column: ${column} is not an adjacent move!`);
         }
         
@@ -53,7 +53,7 @@ export default class MoveHistory {
         }
 
         // Check that game is not already won
-        if (this.MoveIsEndIndex(latestMove.row, latestMove.column)) {
+        if (this.isMoveEnd(latestMove.row, latestMove.column)) {
             throw Error(`Cannot move after game has already won`);
         }
 
@@ -109,7 +109,7 @@ export default class MoveHistory {
         // TODO: Throw error if no moves match
     }
 
-    MoveIsAdjacent(row, column, move) {
+    isMoveAdjacent(row, column, move) {
 
         const rowIsAdjacent = row <= move.row + 1 && row >= move.row - 1 && column == move.column;
         const columnIsAdjacent = column <= move.column + 1 && column >= move.column - 1 && row == move.row;
@@ -117,21 +117,22 @@ export default class MoveHistory {
         return rowIsAdjacent || columnIsAdjacent;
     }
 
-    MoveIsPrevious(row, column) {
+    isMovePrevious(row, column) {
+        if (this.moves.length < 2) { return false; }
         const previousMove = this.moves[this.moves.length - 2];
         return row == previousMove.row && column == previousMove.column;
     }
 
-    MoveIsPreexisting(row, column) {
+    isMovePreexisting(row, column) {
         return this.findMove(row, column) != null;
     }
 
-    MoveIsEndIndex(row, column) {
+    isMoveEnd(row, column) {
         let endIndex = this.grid.endIndex;
         return row == endIndex.row && column == endIndex.column;
     }
 
-    MoveIsStartIndex(row, column) {
+    isMoveStart(row, column) {
         let startIndex = this.grid.startIndex;
         return row == startIndex.row && column == startIndex.column;
     }

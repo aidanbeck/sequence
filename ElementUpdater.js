@@ -50,10 +50,17 @@ export default class ElementUpdater {
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
 
-        moveHistory.makeMove(row, column);
+        const isMovePrevious = moveHistory.isMovePrevious(row, column);
+        const isMoveStart = moveHistory.isMoveStart(row, column);
+        
+        if (isMovePrevious || isMoveStart) {
+            moveHistory.revertToMove(row, column);
+        } else {
+            moveHistory.makeMove(row, column);
+        }
+
         this.lastMovesCount = this.movesCount;
         this.movesCount = moveHistory.moves.length - 1;
-
         this.update();
     }
 
@@ -93,7 +100,7 @@ export default class ElementUpdater {
         const latestMove = moveHistory.getLatestMove();
         const score = latestMove.score;
 
-        const isSequenceComplete = moveHistory.MoveIsEndIndex(latestMove.row, latestMove.column);
+        const isSequenceComplete = moveHistory.isMoveEnd(latestMove.row, latestMove.column);
 
         const integer = Math.trunc(score);
         const decimal = score - integer;
