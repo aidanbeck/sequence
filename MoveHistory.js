@@ -1,17 +1,17 @@
 class Move {
-    constructor(row, column, operatorIndex, score) {
+    constructor(row, column, operator, score) {
         this.row = row;
         this.column = column;
-        this.operatorIndex = operatorIndex;
+        this.operator = operator;
         this.score = score;
     }
 }
 
 export default class MoveHistory {
 
-    constructor(grid, operatorQueue) {
+    constructor(grid, operators) {
         this.grid = grid;
-        this.operatorQueue = operatorQueue;
+        this.operators = operators;
 
         this.moves = []
         this.makeInitialMove();
@@ -24,10 +24,10 @@ export default class MoveHistory {
         const currentMove = this.getLatestMove();
         const newCellNumber = this.grid.getCell(row, column).number;
 
-        const newScore = this.operatorQueue.operate(currentMove.score, newCellNumber, currentMove.operatorIndex);
-        const newOperatorIndex = this.operatorQueue.getNextIndex(currentMove.operatorIndex);
+        const newScore = this.operators.operate(currentMove.score, newCellNumber, currentMove.operator);
+        const newOperator = this.operators.getNextOperator();
 
-        let newMove = new Move(row, column, newOperatorIndex, newScore);
+        let newMove = new Move(row, column, newOperator, newScore);
         this.moves.push(newMove)
         // this.printMove(newMove);
     }
@@ -75,13 +75,14 @@ export default class MoveHistory {
         let startIndex = this.grid.startIndex;
         let startCell = this.grid.getCell(startIndex.row, startIndex.column);
         let startScore = startCell.number;
-        let initialMove = new Move(startIndex.row, startIndex.column, 0, startScore);
+        let startOperator = this.operators.getOperator();
+        let initialMove = new Move(startIndex.row, startIndex.column, startOperator, startScore);
 
         this.moves.push(initialMove);
     }
 
     printMove(move) {
-        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${this.operatorQueue.operators[move.operatorIndex]}`);
+        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${move.operator}`);
     }
 
     findMove(row, column) {

@@ -82,7 +82,9 @@ export default class ElementUpdater {
         const roundedDecimal = Math.round(decimal * 100) / 100;
         const roundedScore = integer + roundedDecimal;
 
-        this.scoreElement.innerText = "= " + roundedScore.toLocaleString('en-us');
+        const operator = this.state.operators.getOperator();
+
+        this.scoreElement.innerText = `= ${roundedScore.toLocaleString('en-us')} ${operator}`;
 
         this.scoreElement.classList.remove("finalScore");
         isSequenceComplete && this.scoreElement.classList.add("finalScore");

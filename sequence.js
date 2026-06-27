@@ -1,9 +1,9 @@
-import OperatorQueue from './OperatorQueue.js';
+import Operators from './Operators.js';
 import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import ElementUpdater from './ElementUpdater.js';
 
-const RANDOMIZE_ON_REFRESH = true;
+const RANDOMIZE_ON_REFRESH = false;
 
 // Daily Seed
 const today = new Date();
@@ -15,8 +15,8 @@ RANDOMIZE_ON_REFRESH && ( seed = Math.random() * 1000 );
 class GameState {
     constructor(seed, operatorsElement, scoreElement, gridElement) {
         this.grid = new Grid(4, 6, 2, seed);
-        this.operatorQueue = new OperatorQueue();
-        this.moveHistory = new MoveHistory(this.grid, this.operatorQueue)
+        this.operators = new Operators();
+        this.moveHistory = new MoveHistory(this.grid, this.operators)
     }
 }
 
