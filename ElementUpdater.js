@@ -6,21 +6,51 @@ export default class ElementUpdater {
         this.scoreElement = scoreElement;
         this.gridElement = gridElement;
 
+        this.isMoving = false;
         this.lastMovesCount = 0;
         this.movesCount = 0;
         this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
+        gridElement.addEventListener("pointerup", this.onPointerUp);
+        gridElement.addEventListener("pointermove", this.onPointerMove);
+        gridElement.addEventListener("touchmove", this.onTouchMove);
+
     }
 
-    onPointerDown = (e) => { // arrow function preserves access to state
-        const moveHistory = this.state.moveHistory;
+    onPointerDown = (e) => {
+        this.isMoving = true;
+        this.selectCellElement(e.target);
+    }
 
-        const cellElement = e.target;
+    onPointerUp = (e) => {
+        this.isMoving = false;
+    }
+
+    onPointerMove = (e) => {
+        if (!this.isMoving) { return; }
+
+        this.selectCellElement(e.target);
+    }
+
+    onTouchMove = (e) => {
+        if (!this.isMoving) { return; }
+        /*
+            Touch events on mobile target the element that was initially touched, NOT the element beneath the touch coordinates, which is what mouse/pointer events do.
+            This function converts touch events into pointer events by extracting their coordinates & re-dispatching them at the cell in that location.
+        */
+        const touch = e.touches[0];
+        const targetCell = document.elementFromPoint(touch.clientX, touch.clientY);
+        this.selectCellElement(targetCell);
+    }
+
+    selectCellElement(cellElement) {
+
+        const moveHistory = this.state.moveHistory;
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
-        moveHistory.makeMove(row, column);
 
+        moveHistory.makeMove(row, column);
         this.lastMovesCount = this.movesCount;
         this.movesCount = moveHistory.moves.length - 1;
 
@@ -28,6 +58,7 @@ export default class ElementUpdater {
     }
 
     update() {
+        if (this.movesCount == this.lastMovesCount && this.movesCount != 0) { return; }
         this.updateOperators();
         this.updateScore();
         this.updateCells();
@@ -35,7 +66,7 @@ export default class ElementUpdater {
     }
 
     updateOperators() {
-        if (this.movesCount > this.lastMovesCount) {
+        if (this.movesCount == this.lastMovesCount + 1) {
             this.updateOperatorsForwards();
         }
     }
@@ -43,22 +74,18 @@ export default class ElementUpdater {
     updateOperatorsForwards() {
         const operators = this.state.operators;
         const divs = this.operatorsElement.children;
+
+        const firstDiv = divs[0];
         
         divs[1].classList.add("invisibleOperator");
         divs[4].classList.add("pastOperator");
         divs[5].classList.add("currentOperator");
         divs[8].classList.remove("invisibleOperator");
 
-        const newDiv = document.createElement("div");
         const newOperator = operators.getOperator(4);
-        newDiv.classList.add("operator");
-        newDiv.classList.add("invisibleOperator");
-        newDiv.classList.add(newOperator);
-        newDiv.innerText = newOperator;
-
-        this.operatorsElement.appendChild(newDiv);
-
-        divs[0].remove();
+        firstDiv.className = `operator invisibleOperator ${newOperator}`;
+        firstDiv.innerText = newOperator;
+        this.operatorsElement.appendChild(firstDiv);
     }
 
     updateScore() {
