@@ -82,6 +82,10 @@ export default class ElementUpdater {
         const operators = this.state.operators;
         const divs = this.operatorsElement.children;
 
+        this.operatorsElement.style.animation = 'none';
+        this.operatorsElement.offsetHeight;
+        this.operatorsElement.style.animation = 'moveOperatorsLeft 0.3s forwards';
+
         const firstDiv = divs[0];
         
         divs[1].classList.add("invisibleOperator");

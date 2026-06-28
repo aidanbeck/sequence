@@ -15,9 +15,10 @@ export default class SequenceUI {
     }
 
     appendToIds(operatorQueueElementId, gridElementId, scoreElementId) {
-        document.getElementById(operatorQueueElementId).appendChild(this.operatorQueueElement);
+        // document.getElementById(operatorQueueElementId).appendChild(this.operatorQueueElement);
+        // document.getElementById(scoreElementId).appendChild(this.scoreElement);
         document.getElementById(gridElementId).appendChild(this.gridElement);
-        document.getElementById(scoreElementId).appendChild(this.scoreElement);
+
 
         document.getElementById("title").innerHTML = `SEQUENCE ${this.grid.seed}`;
     }
@@ -64,12 +65,12 @@ class OperatorQueueElementBuilder {
     }
 
     buildDiv(operators) {
-        let operatorQueueElement = document.createElement("div");
+        const operatorQueueElement = document.createElement("div");
 
-        for (let operatorSymbol of operators) {
-            let operatorElement = document.createElement("span");
-            operatorElement.classList.add("operator", operatorSymbol);
-            operatorElement.innerText = operatorSymbol;
+        for (let i = 0; i < 9; i++) { // offScreen past past past current future future future offScreen
+
+            const operatorElement = document.createElement("div");
+            operatorElement.classList.add("operator");
             operatorQueueElement.appendChild(operatorElement);
         }
 
@@ -104,6 +105,22 @@ class OperatorQueueElementBuilder {
 
     static updateOperatorsElement(operatorQueueElement, moveHistory) {
         
+        // assume moving forwards
+
+        const operatorElements = operatorQueueElement.children;
+
+        operatorElements[0].remove();
+        operatorElements[0].classList.add("invisibleOperator");
+        operatorElements[7].classList.remove("invisibleOperator");
+
+        const newOffscreenOperator = document.createElement("div");
+        newOffscreenOperator.classList.add("operator");
+        newOffscreenOperator.classList.add("invisibleOperator");
+        operatorQueueElement.appendChild(newOffscreenOperator);
+
+
+
+
         let operatorIndex = moveHistory.getLatestMove().operatorIndex;
         let selectedOperator = operatorQueueElement.querySelector(".selectedOperator");
         selectedOperator != null && selectedOperator.classList.remove("selectedOperator"); // There should only be one selected operator, so removing just one is fine.
