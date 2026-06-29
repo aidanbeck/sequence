@@ -73,9 +73,15 @@ export default class ElementUpdater {
     }
 
     updateOperators() {
-        if (this.movesCount == this.lastMovesCount + 1) {
-            this.updateOperatorsForwards();
+        if (this.movesCount == 0 ) {
+
         }
+        else if (this.movesCount == this.lastMovesCount + 1) {
+            this.updateOperatorsForwards();
+        } else {
+            this.updateOperatorsBackwards();
+        }
+
     }
 
     updateOperatorsForwards() {
@@ -97,6 +103,27 @@ export default class ElementUpdater {
         firstDiv.className = `operator invisibleOperator ${newOperator}`;
         firstDiv.innerText = newOperator;
         this.operatorsElement.appendChild(firstDiv);
+    }
+
+    updateOperatorsBackwards() {
+        const operators = this.state.operators;
+        const divs = this.operatorsElement.children;
+
+        this.operatorsElement.style.animation = 'none';
+        this.operatorsElement.offsetHeight;
+        this.operatorsElement.style.animation = 'moveOperatorsRight 0.3s forwards';
+
+        const lastDiv = divs[8];
+        
+        divs[0].classList.remove("invisibleOperator");
+        divs[3].classList.remove("pastOperator");
+        divs[4].classList.remove("currentOperator");
+        divs[7].classList.add("invisibleOperator");
+
+        const newOperator = operators.getOperator(-4);
+        lastDiv.className = `operator pastOperator invisibleOperator ${newOperator}`;
+        lastDiv.innerText = newOperator;
+        this.operatorsElement.prepend(lastDiv);
     }
 
     updateScore() {

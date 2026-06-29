@@ -72,6 +72,15 @@ p {
     }
 }
 
+@keyframes moveOperatorsRight {
+    from {
+        transform: translateX(-20%);
+    }
+    to {
+        transform: translateX(-10%);
+    }
+}
+
 .operator {
     background-color: var(--blue);
     color: var(--white);
