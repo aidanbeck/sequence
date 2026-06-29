@@ -25,6 +25,13 @@ export default class Operators {
         }
     }
 
+    decrementOperator() {
+        this.index--;
+        if (this.index < 0) {
+            this.index = this.operators.length - 1;
+        }
+    }
+
     getNextOperator() {
         this.incrementOperator();
         return this.getOperator();

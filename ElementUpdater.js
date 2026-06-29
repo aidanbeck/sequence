@@ -53,8 +53,10 @@ export default class ElementUpdater {
         const isMovePrevious = moveHistory.isMovePrevious(row, column);
         const isMoveStart = moveHistory.isMoveStart(row, column);
         
-        if (isMovePrevious || isMoveStart) {
-            moveHistory.revertToMove(row, column);
+        if (isMovePrevious) {
+            moveHistory.undoLatestMove();
+        } else if (isMoveStart) {
+            moveHistory.resetMoves();
         } else {
             moveHistory.makeMove(row, column);
         }

@@ -95,18 +95,15 @@ export default class MoveHistory {
         return null; // no moves found. Throw error?
     }
 
-    revertToMove(row, column) {
+    undoLatestMove() {
+        this.moves.pop();
+        this.operators.decrementOperator();
+    }
 
-        let move = this.findMove(row, column);
-        if (move != null) {
-            let index = this.moves.indexOf(move)
-            if (index == 0) { index = 1; } // don't remove the first move
-            this.moves.splice(index);
-            this.makeMove(row, column); // make move on this spot again (useful for triggering thins like printMove)
-        }
-
-        return move;
-        // TODO: Throw error if no moves match
+    resetMoves() {
+        this.operators.setOperatorIndex(0);
+        this.moves = [];
+        this.makeInitialMove();
     }
 
     isMoveAdjacent(row, column, move) {
