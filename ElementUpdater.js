@@ -75,8 +75,8 @@ export default class ElementUpdater {
     }
 
     updateOperators() {
-        if (this.movesCount == 0 ) {
-
+        if (this.movesCount == 0) {
+            this.resetOperators();
         }
         else if (this.movesCount == this.lastMovesCount + 1) {
             this.updateOperatorsForwards();
@@ -128,6 +128,23 @@ export default class ElementUpdater {
         lastDiv.className = `operator currentOperator pastOperator invisibleOperator ${newOperator}`;
         lastDiv.innerText = newOperator;
         this.operatorsElement.prepend(lastDiv);
+    }
+
+    resetOperators() {
+        operators.innerHTML = `<div class="operator pastOperator invisibleOperator ÷">÷</div>
+            <div class="operator pastOperator +">+</div>
+            <div class="operator pastOperator ×">×</div>
+            <div class="operator pastOperator ÷">÷</div>
+            <div class="operator currentOperator +">+</div>
+            <div class="operator ×">×</div>
+            <div class="operator ÷">÷</div>
+            <div class="operator +">+</div>
+            <div class="operator invisibleOperator ×">×</div>`;
+        // I love repeating myself! Hacky hacky hack hack hack
+
+        this.operatorsElement.style.animation = 'none';
+        this.operatorsElement.offsetHeight;
+        this.operatorsElement.style.animation = 'fadeOperatorsIn 0.3s forwards';
     }
 
     updateScore() {

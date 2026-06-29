@@ -81,6 +81,15 @@ p {
     }
 }
 
+@keyframes fadeOperatorsIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
+
 .operator {
     background-color: var(--blue);
     color: var(--white);
