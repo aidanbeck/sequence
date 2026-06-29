@@ -125,7 +125,7 @@ export default class ElementUpdater {
         divs[7].classList.add("invisibleOperator");
 
         const newOperator = operators.getOperator(latestMoveIndex, -4);
-        lastDiv.className = `operator pastOperator invisibleOperator ${newOperator}`;
+        lastDiv.className = `operator currentOperator pastOperator invisibleOperator ${newOperator}`;
         lastDiv.innerText = newOperator;
         this.operatorsElement.prepend(lastDiv);
     }
