@@ -88,6 +88,7 @@ export default class ElementUpdater {
 
     updateOperatorsForwards() {
         const operators = this.state.operators;
+        const latestMoveIndex = this.state.moveHistory.getLatestMoveIndex();
         const divs = this.operatorsElement.children;
 
         this.operatorsElement.style.animation = 'none';
@@ -101,7 +102,7 @@ export default class ElementUpdater {
         divs[5].classList.add("currentOperator");
         divs[8].classList.remove("invisibleOperator");
 
-        const newOperator = operators.getOperator(4);
+        const newOperator = operators.getOperator(latestMoveIndex, 4);
         firstDiv.className = `operator invisibleOperator ${newOperator}`;
         firstDiv.innerText = newOperator;
         this.operatorsElement.appendChild(firstDiv);
@@ -109,6 +110,7 @@ export default class ElementUpdater {
 
     updateOperatorsBackwards() {
         const operators = this.state.operators;
+        const latestMoveIndex = this.state.moveHistory.getLatestMoveIndex();
         const divs = this.operatorsElement.children;
 
         this.operatorsElement.style.animation = 'none';
@@ -122,7 +124,7 @@ export default class ElementUpdater {
         divs[4].classList.remove("currentOperator");
         divs[7].classList.add("invisibleOperator");
 
-        const newOperator = operators.getOperator(-4);
+        const newOperator = operators.getOperator(latestMoveIndex, -4);
         lastDiv.className = `operator pastOperator invisibleOperator ${newOperator}`;
         lastDiv.innerText = newOperator;
         this.operatorsElement.prepend(lastDiv);
@@ -140,7 +142,7 @@ export default class ElementUpdater {
         const roundedDecimal = Math.round(decimal * 100) / 100;
         const roundedScore = integer + roundedDecimal;
 
-        const operator = this.state.operators.getOperator();
+        const operator = moveHistory.getLatestMove().symbol;
 
         this.scoreElement.innerText = `= ${roundedScore.toLocaleString('en-us')} ${operator}`;
 

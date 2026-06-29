@@ -1,8 +1,8 @@
 class Move {
-    constructor(row, column, operator, score) {
+    constructor(row, column, symbol, score) {
         this.row = row;
         this.column = column;
-        this.operator = operator;
+        this.symbol = symbol;
         this.score = score;
     }
 }
@@ -17,6 +17,14 @@ export default class MoveHistory {
         this.makeInitialMove();
     }
 
+    getLatestMoveIndex() {
+        return this.moves.length - 1;
+    }
+
+    getNextMoveIndex() {
+        return this.moves.length;
+    }
+
     makeMove(row, column) {
 
         if (!this.validateMove(row, column)) { return; }
@@ -24,8 +32,8 @@ export default class MoveHistory {
         const currentMove = this.getLatestMove();
         const newCellNumber = this.grid.getCell(row, column).number;
 
-        const newScore = this.operators.operate(currentMove.score, newCellNumber, currentMove.operator);
-        const newOperator = this.operators.getNextOperator();
+        const newScore = this.operators.operate(currentMove.score, newCellNumber, this.getLatestMoveIndex());
+        const newOperator = this.operators.getOperator(this.getNextMoveIndex());
 
         let newMove = new Move(row, column, newOperator, newScore);
         this.moves.push(newMove)
@@ -75,14 +83,14 @@ export default class MoveHistory {
         let startIndex = this.grid.startIndex;
         let startCell = this.grid.getCell(startIndex.row, startIndex.column);
         let startScore = startCell.number;
-        let startOperator = this.operators.getOperator();
+        let startOperator = this.operators.getOperator(this.moves.length);
         let initialMove = new Move(startIndex.row, startIndex.column, startOperator, startScore);
 
         this.moves.push(initialMove);
     }
 
     printMove(move) {
-        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${move.operator}`);
+        console.log(`Moved to (${move.row},${move.column}) \n Score: ${move.score} \n Operator: ${move.symbol}`);
     }
 
     findMove(row, column) {
@@ -97,11 +105,9 @@ export default class MoveHistory {
 
     undoLatestMove() {
         this.moves.pop();
-        this.operators.decrementOperator();
     }
 
     resetMoves() {
-        this.operators.setOperatorIndex(0);
         this.moves = [];
         this.makeInitialMove();
     }
@@ -112,6 +118,11 @@ export default class MoveHistory {
         const columnIsAdjacent = column <= move.column + 1 && column >= move.column - 1 && row == move.row;
 
         return rowIsAdjacent || columnIsAdjacent;
+    }
+
+    isMoveLatest(row, column) {
+        const latestMove = this.getLatestMove();
+        return row == latestMove.row && column == latestMove.column;
     }
 
     isMovePrevious(row, column) {

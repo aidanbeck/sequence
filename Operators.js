@@ -2,11 +2,10 @@ export default class Operators {
     constructor(operators = ['+', '×', '÷']) {
 
         this.operators = operators;
-        this.index = 0;
     }
 
-    getOperator(offset = 0) {
-        let index = this.index + offset;
+    getOperator(moveIndex, offset = 0) {
+        let index = moveIndex + offset;
         const length = this.operators.length;
 
         index < 0 && (index += length * Math.abs(index)); // normalize negative indexes
@@ -14,30 +13,9 @@ export default class Operators {
         return this.operators[index % length];
     }
 
-    setOperatorIndex(index) {
-        this.index = index;
-    }
+    operate(score, number, moveIndex) {
 
-    incrementOperator() {
-        this.index++;
-        if (this.index >= this.operators.length) {
-            this.index = 0;
-        }
-    }
-
-    decrementOperator() {
-        this.index--;
-        if (this.index < 0) {
-            this.index = this.operators.length - 1;
-        }
-    }
-
-    getNextOperator() {
-        this.incrementOperator();
-        return this.getOperator();
-    }
-
-    operate(score, number, symbol) {
+        const symbol = this.getOperator(moveIndex);
 
         switch (symbol) {
             case '+':
