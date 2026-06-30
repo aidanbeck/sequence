@@ -24,7 +24,6 @@ export default class ElementUpdater {
 
     onPointerUp = (e) => {
         this.isMoving = false;
-        this.lastSelectedCell = null;
     }
 
     onPointerMove = (e) => {
