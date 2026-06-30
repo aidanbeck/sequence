@@ -40,6 +40,7 @@ export default class ElementUpdater {
         */
         const touch = e.touches[0];
         const targetCell = document.elementFromPoint(touch.clientX, touch.clientY);
+        targetCell.style.border = "5px solid red";
         this.selectCellElement(targetCell);
     }
 
