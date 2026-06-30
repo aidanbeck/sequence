@@ -7,8 +7,7 @@ export default class ElementUpdater {
         this.gridElement = gridElement;
 
         this.isMoving = false;
-        this.lastMovesCount = 0;
-        this.movesCount = 0;
+        this.lastSelectedCell = null;
         this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
@@ -25,6 +24,7 @@ export default class ElementUpdater {
 
     onPointerUp = (e) => {
         this.isMoving = false;
+        this.lastSelectedCell = null;
     }
 
     onPointerMove = (e) => {
@@ -46,6 +46,11 @@ export default class ElementUpdater {
 
     selectCellElement(cellElement) {
 
+        if (cellElement == this.lastSelectedCell) {
+            return;
+        }
+        this.lastSelectedCell = cellElement;
+
         const moveHistory = this.state.moveHistory;
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
@@ -55,35 +60,23 @@ export default class ElementUpdater {
         
         if (isMovePrevious) {
             moveHistory.undoLatestMove();
+            this.updateOperatorsBackwards();
         } else if (isMoveStart) {
             moveHistory.resetMoves();
+            this.resetOperators();
+
         } else {
             moveHistory.makeMove(row, column);
+            this.updateOperatorsForwards();
         }
 
-        this.lastMovesCount = this.movesCount;
-        this.movesCount = moveHistory.moves.length - 1;
         this.update();
     }
 
     update() {
-        if (this.movesCount == this.lastMovesCount && this.movesCount != 0) { return; }
-        this.updateOperators();
         this.updateScore();
         this.updateCells();
         this.updateMoves();
-    }
-
-    updateOperators() {
-        if (this.movesCount == 0) {
-            this.resetOperators();
-        }
-        else if (this.movesCount == this.lastMovesCount + 1) {
-            this.updateOperatorsForwards();
-        } else {
-            this.updateOperatorsBackwards();
-        }
-
     }
 
     updateOperatorsForwards() {
