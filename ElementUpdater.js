@@ -26,6 +26,14 @@ export default class ElementUpdater {
 
     onPointerUp = (e) => {
         this.isMoving = false;
+
+        const id = this.lastSelectedCell.id;
+        const row = Number(id.split("|")[0]);
+        const column = Number(id.split("|")[1]);
+
+        if (this.state.moveHistory.isMoveEnd(row, column)) {
+            this.endGame();
+        }
     }
 
     onMouseMove = (e) => {
@@ -214,6 +222,32 @@ export default class ElementUpdater {
 
             previousSymbol = move.symbol;
         }
+    }
+
+    endGame() {
+
+        const score = this.state.moveHistory.getLatestMove().score;
+
+        fetch("https://aidanbeck.com/api/helloworld", {
+            method: "POST",
+            body: JSON.stringify({
+                id: localStorage.getItem("sequence:id"),
+                score: score
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            localStorage.setItem("sequence:id", json.id);
+            localStorage.setItem("sequence:solveId", json.solveId);
+            totalBetter.innerText = json.totalBetterSolvesToday + " Players beat you.";
+            totalTied.innerText = json.totalTiedSolvesToday + " Players tied with you.";
+            totalTied.innerText = json.totalTiedSolvesToday + " Players played today.";
+        });
+
+        overlay.classList.remove("hidden");
     }
 
 }

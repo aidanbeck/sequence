@@ -1,11 +1,6 @@
 A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
-* Refactor Element Builders - Reduce Comlexity
- * Use HTML instead of generating everything
- * Make assumptions about dimensions & operator order
- * Revamp Operations Display
-
 * Pop-Up Box
  * Tutorial Box
  * Submission Box: Triggered by letting go of finished sequence

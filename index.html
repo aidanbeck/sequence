@@ -5,6 +5,7 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
     <title>Sequence</title>
     <link rel="stylesheet" href="sequence.css">
+    <link rel="stylesheet" href="overlay.css">
     <link rel="preload" as="image" href="checker.jpg">
     <link rel="preload" as="image" href="greenChecker.bmp">
     <script type="module" src="Operators.js"></script>
@@ -67,9 +68,23 @@
         </table>
         <p>
             <strong id="title">SEQUENCE</strong>
-            <br>
-            A daily number puzzle by Aidan & Carter Beck.
+            <br>A daily number puzzle by Aidan & Carter Beck.
         </p>
+
+        <div id="overlay" class="hidden">
+            <div id="tutorial" class="hidden">
+                <h1>SEQUENCE</h1>
+                <p>A daily number puzzle by Aidan & Carter Beck.</p>
+            </div>
+            <div id="leaderboard" class="">
+                <h1>SEQUENCE</h1>
+                <p>Leaderboard Stats:</p>
+                <p id="totalBetter"></p>
+                <p id="totalTied"></p>
+                <p id="total"></p>
+            </div>
+        </div>
+
     </div>
 
 </body>
