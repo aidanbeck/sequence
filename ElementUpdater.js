@@ -33,7 +33,7 @@ export default class ElementUpdater {
     }
 
     onTouchMove = (e) => {
-        if (!this.isMoving) { return; }
+        this.isMoving = true;
         /*
             Touch events on mobile target the element that was initially touched, NOT the element beneath the touch coordinates, which is what mouse/pointer events do.
             This function converts touch events into pointer events by extracting their coordinates & re-dispatching them at the cell in that location.
