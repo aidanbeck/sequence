@@ -91,10 +91,10 @@ p {
 }
 
 .operator {
-    background-color: var(--blue);
-    color: var(--white);
+    background-color: var(--light-blue);
+    color: var(--black);
+
     font-weight: 600;
-    
     text-align: center;
     overflow: hidden;
     width: 15%;
@@ -108,12 +108,13 @@ p {
 
 .currentOperator {
     background-color: var(--green);
+    color: var(--white);
+
     font-weight: 1000;
 }
 
 .pastOperator {
-    background-color: var(--light-blue);
-    color: black;
+    background-color: var(--blue);
     font-size: 150%;
     line-height: 160%;
 }
