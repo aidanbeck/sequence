@@ -192,14 +192,21 @@ export default class ElementUpdater {
         const latestMove = this.state.moveHistory.getLatestMove();
         const previousMove = moves[moves.length - 2];
 
+        let previousSymbol = 'START'
         for (let move of moves) {
+
             const td = document.getElementById(`${move.row}|${move.column}`);
-            td.classList.add("moved");
+            const cell = this.state.grid.getCell(move.row, move.column)
 
             move == latestMove && td.classList.add("latestMove");
             move == previousMove && td.classList.add("previousMove");
 
-            // TODO add operator symbol
+            if (!this.state.moveHistory.isMoveStart(move.row, move.column)) {
+                td.innerText = `${previousSymbol}${cell.number}  `;
+                td.classList.add("moved");
+            }
+
+            previousSymbol = move.symbol;
         }
     }
 
