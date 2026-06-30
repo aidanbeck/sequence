@@ -139,6 +139,10 @@ p {
     transform: scale(0%) translateX(100%);
 }
 
+.beforeStart {
+    opacity: 0;
+}
+
 
 
 /* GRID */

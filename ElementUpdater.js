@@ -119,16 +119,21 @@ export default class ElementUpdater {
         divs[7].classList.add("invisibleOperator");
 
         const newOperator = operators.getOperator(latestMoveIndex, -4);
-        lastDiv.className = `operator currentOperator pastOperator invisibleOperator ${newOperator}`;
+        if (latestMoveIndex < 4) {
+            lastDiv.className = `operator currentOperator pastOperator invisibleOperator beforeStart ${newOperator}`;
+        } else {
+            lastDiv.className = `operator currentOperator pastOperator invisibleOperator ${newOperator}`;
+        }
         lastDiv.innerText = newOperator;
+
         this.operatorsElement.prepend(lastDiv);
     }
 
     resetOperators() {
-        operators.innerHTML = `<div class="operator pastOperator invisibleOperator ÷">÷</div>
-            <div class="operator pastOperator +">+</div>
-            <div class="operator pastOperator ×">×</div>
-            <div class="operator pastOperator ÷">÷</div>
+        operators.innerHTML = `<div class="operator pastOperator invisibleOperator beforeStart ÷">÷</div>
+            <div class="operator pastOperator beforeStart +">+</div>
+            <div class="operator pastOperator beforeStart ×">×</div>
+            <div class="operator pastOperator beforeStart ÷">÷</div>
             <div class="operator currentOperator +">+</div>
             <div class="operator ×">×</div>
             <div class="operator ÷">÷</div>
