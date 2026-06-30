@@ -100,7 +100,7 @@ p {
     width: 15%;
     aspect-ratio: 1;
 
-    transition: transform 0.3s;
+    transition: transform 0.2s;
 
     font-size: 200%;
     line-height: 130%;
@@ -112,11 +112,12 @@ p {
 
     font-weight: 1000;
 }
+.currentOperator:not(.pastOperator) {
+    transform: translateY(-10%);
+}
 
 .pastOperator {
     background-color: var(--blue);
-    font-size: 150%;
-    line-height: 160%;
 }
 
 .\+ { /* square */
@@ -141,7 +142,11 @@ p {
 }
 
 .beforeStart {
-    opacity: 0;
+    /* opacity: 0; */
+    font-size: 0;
+    /* background-color: var(--green); */
+    clip-path: circle();
+    scale: 0.5;
 }
 
 
