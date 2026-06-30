@@ -246,7 +246,7 @@ export default class ElementUpdater {
             const playerCount = json.totalSolvesToday;
             const place = json.totalBetterSolvesToday + 1;
 
-            shareString.innerText = this.getShareString(place, playerCount);
+            shareString.innerText = this.getShareString(score, place, playerCount);
         });
 
         overlay.classList.remove("hidden");
