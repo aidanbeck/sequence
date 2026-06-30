@@ -11,7 +11,9 @@ export default class ElementUpdater {
         this.update();
 
         gridElement.addEventListener("pointerdown", this.onPointerDown);
+        gridElement.addEventListener("touchstart", this.onPointerDown);
         gridElement.addEventListener("pointerup", this.onPointerUp);
+        gridElement.addEventListener("touchend", this.onPointerUp);
         gridElement.addEventListener("pointermove", this.onPointerMove);
         gridElement.addEventListener("touchmove", this.onTouchMove);
 
@@ -33,7 +35,7 @@ export default class ElementUpdater {
     }
 
     onTouchMove = (e) => {
-        this.isMoving = true;
+        if (!this.isMoving) { return; }
         /*
             Touch events on mobile target the element that was initially touched, NOT the element beneath the touch coordinates, which is what mouse/pointer events do.
             This function converts touch events into pointer events by extracting their coordinates & re-dispatching them at the cell in that location.
@@ -50,8 +52,6 @@ export default class ElementUpdater {
         }
         this.lastSelectedCell = cellElement;
         
-        title.innerText = cellElement.id; // debug
-
         const moveHistory = this.state.moveHistory;
         const row = Number(cellElement.id.split("|")[0]);
         const column = Number(cellElement.id.split("|")[1]);
