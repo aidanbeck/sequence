@@ -242,12 +242,43 @@ export default class ElementUpdater {
         .then(json => {
             localStorage.setItem("sequence:id", json.id);
             localStorage.setItem("sequence:solveId", json.solveId);
-            totalBetter.innerText = json.totalBetterSolvesToday + " Players beat you.";
-            totalTied.innerText = json.totalTiedSolvesToday + " Players tied with you.";
-            totalTied.innerText = json.totalTiedSolvesToday + " Players played today.";
+
+            const playerCount = json.totalSolvesToday;
+            const place = json.totalBetterSolvesToday + 1;
+
+            shareString.innerText = this.getShareString(place, playerCount);
         });
 
         overlay.classList.remove("hidden");
+    }
+
+    getShareString(score, place, playerCount) {
+
+        const moveHistory = this.state.moveHistory;
+        const cells = this.state.grid.cells;
+        const date = new Date();
+
+        let resultString = "notebeck.com/sequence\n\n";
+
+        for (let i = 0; i < cells.length; i++) {
+            for (let j = 0; j < cells[i].length; j++) {
+                let cell = cells[i][j];
+                if (cell.obstructed) { resultString += "⬛"; continue; }
+                if ( moveHistory.isMoveEnd(i, j) ) { resultString += "🟩"; continue; }
+                if ( moveHistory.isMoveStart(i, j) ) { resultString += "🟩"; continue; }
+                if ( moveHistory.isMovePreexisting(i, j) ) { resultString += "🟦"; continue; }
+                resultString += "⬜";
+            }
+
+            if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
+            if (i == 2) { resultString += ` #${place.toLocaleString('en-us')} of`; } // needs nd, th, st, etc
+            if (i == 3) { resultString += ` ${playerCount.toLocaleString('en-us')} solves.`; }
+            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}🥇`; }
+            resultString += "\n";
+
+        }
+
+        return resultString;
     }
 
 }
