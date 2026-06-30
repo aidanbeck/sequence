@@ -14,7 +14,7 @@ export default class ElementUpdater {
         gridElement.addEventListener("touchstart", this.onPointerDown);
         gridElement.addEventListener("pointerup", this.onPointerUp);
         gridElement.addEventListener("touchend", this.onPointerUp);
-        gridElement.addEventListener("pointermove", this.onPointerMove);
+        gridElement.addEventListener("mousemove", this.onMouseMove);
         gridElement.addEventListener("touchmove", this.onTouchMove);
 
     }
@@ -28,9 +28,8 @@ export default class ElementUpdater {
         this.isMoving = false;
     }
 
-    onPointerMove = (e) => {
+    onMouseMove = (e) => {
         if (!this.isMoving) { return; }
-
         this.selectCellElement(e.target);
     }
 
