@@ -3,7 +3,7 @@ import Grid from './Grid.js';
 import MoveHistory from './MoveHistory.js';
 import ElementUpdater from './ElementUpdater.js';
 
-const RANDOMIZE_ON_REFRESH = false;
+const RANDOMIZE_ON_REFRESH = true;
 
 // Daily Seed
 const today = new Date();
