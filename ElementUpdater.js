@@ -228,11 +228,13 @@ export default class ElementUpdater {
 
         const score = this.state.moveHistory.getLatestMove().score;
 
-        fetch("https://aidanbeck.com/api/helloworld", {
+        fetch("https://aidanbeck.com/api/sequence", {
             method: "POST",
             body: JSON.stringify({
                 id: localStorage.getItem("sequence:id"),
-                score: score
+                score: score,
+                moves: null,
+                date: (new Date()).toISOString() // TODO use game state
             }),
             headers: {
                 "Content-type": "application/json"
