@@ -249,7 +249,7 @@ export default class ElementUpdater {
             const place = json.totalBetterSolvesToday + 1;
 
             leaderboardScore.innerText = `Score = ${score.toLocaleString('en-us')}.`;
-            place.innerText `Placed #${place.toLocaleString('en-us')} out of <br> ${playerCount.toLocaleString('en-us')} solvers!`;
+            place.innerText = `Placed #${place.toLocaleString('en-us')} out of <br> ${playerCount.toLocaleString('en-us')} solvers!`;
             totalTied.innerText = `Tied with ${json.totalTied.toLocaleString('en-us')} solvers.`;
 
             // shareString.innerText = this.getShareString(score, place, playerCount);
