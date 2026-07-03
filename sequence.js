@@ -25,6 +25,11 @@ const updater = new ElementUpdater(state, operators, score, grid);
 
 title.innerText = `SEQUENCE ${today.toLocaleDateString()}`;
 
+tutorialStart.addEventListener("click", () => {
+    tutorial.classList.add("hidden");
+    overlay.classList.add("hidden");
+})
+
 /*
     This is a band-aid, setting GAME_MOVES to a global variable.
     It allows the element builders to have access to GAME_MOVES, which they depend on, even though they shouldn't.

@@ -252,6 +252,7 @@ export default class ElementUpdater {
         });
 
         overlay.classList.remove("hidden");
+        leaderboard.classList.remove("hidden");
     }
 
     getShareString(score, place, playerCount) {
