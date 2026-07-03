@@ -248,7 +248,11 @@ export default class ElementUpdater {
             const playerCount = json.totalSolvesToday;
             const place = json.totalBetterSolvesToday + 1;
 
-            shareString.innerText = this.getShareString(score, place, playerCount);
+            leaderboardScore.innerText = `Score = ${score}.`;
+            placed.innerText `Placed #${place} out of ${playerCount} solvers.`;
+            totalTied.innerText = `Tied with ${json.totalTied} solvers.`;
+
+            // shareString.innerText = this.getShareString(score, place, playerCount);
         });
 
         overlay.classList.remove("hidden");
