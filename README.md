@@ -8,6 +8,7 @@ A daily number puzzle by Aidan & Carter Beck.
 * Remove Zeros (For Now)
 * Prevent Unreachable Boxes
 * Revamp Share String. Emojis, placing, etc
+* Clicking on End triggers submission bug. Check for actual completion!
 
 * Handle Errors on Server
 * Adapt to failures on Server
