@@ -155,11 +155,18 @@ export default class Grid {
 
     blockObstructedCells() {
 
-        for (let row = 0; row < this.cells.length; row++) {
-            for (let column = 0; column < this.cells[0].length; column++) {
-                const adjacentFreeSpacesCount = this.countAdjacentFreeSpaces(row, column);
-                if (adjacentFreeSpacesCount < 2) {
-                    this.getCell(row, column).obstructed = true;
+        let hadToBlockACell = true;
+
+        while (hadToBlockACell) {
+            hadToBlockACell = false;
+            for (let row = 0; row < this.cells.length; row++) {
+                for (let column = 0; column < this.cells[0].length; column++) {
+                    const alreadyObstructed = this.getCell(row, column).obstructed;
+                    const adjacentFreeSpacesCount = this.countAdjacentFreeSpaces(row, column);
+                    if (!alreadyObstructed && adjacentFreeSpacesCount < 2) {
+                        this.getCell(row, column).obstructed = true;
+                        hadToBlockACell = true;
+                    }
                 }
             }
         }
