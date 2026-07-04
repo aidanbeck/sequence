@@ -44,7 +44,7 @@ export default class Grid {
         let spawnNegatives = this.getRandomPercentage() < 15;
         
         // !!! the logic is sound, but negative and double digit numbers don't display properly
-        spawnZero && this.getRandomCell().zero();
+        // spawnZero && this.getRandomCell().zero();
         spawnBigNumber && this.getRandomCell().makeBig();
         spawnNegatives && this.getRandomCell().flip();
         spawnNegatives && this.getRandomCell().flip();

@@ -5,7 +5,6 @@ A daily number puzzle by Aidan & Carter Beck.
 * Leaderboard Box Stylization
 * Leaderboard Box Share
 
-* Remove Zeros (For Now)
 * Prevent Unreachable Boxes
 * Revamp Share String. Emojis, placing, etc
 * Clicking on End triggers submission bug. Check for actual completion!
