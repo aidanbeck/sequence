@@ -1,16 +1,22 @@
 A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
-* Pop-Up Box
- * Tutorial Box
- * Submission Box: Triggered by letting go of finished sequence
- * Leaderboard Box
 
-* Finish Leaderboard. Connect, Handle Errors & Incorrect Input
-* Font, Colors, Sound
-* Lose if you divide by Zero. Trigger Leaderboard box with specific adjustments.
+* Stylize Logo & Puzzle Date
+* Leaderboard Box Stylization
+* Leaderboard Box Share
 
-Sound
+* Remove Zeros (For Now)
+* Prevent Unreachable Boxes
+* Revamp Share String. Emojis, placing, etc
+
+* Handle Errors on Server
+* Adapt to failures on Server
+* Handle content-length on Server
+
+
+# Sound Effects
+
 * Sound for hitting Start.
 * Sound on add, multiply, divide. Cool if variants make a melody.
 * Reverse sounds for taking moves back (Reversed).
