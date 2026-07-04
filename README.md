@@ -6,7 +6,6 @@ A daily number puzzle by Aidan & Carter Beck.
 * Leaderboard Box Share
 
 * Revamp Share String. Emojis, placing, etc
-* Clicking on End triggers submission bug. Check for actual completion!
 
 * Handle Errors on Server
 * Adapt to failures on Server

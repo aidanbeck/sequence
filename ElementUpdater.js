@@ -25,13 +25,12 @@ export default class ElementUpdater {
     }
 
     onPointerUp = (e) => {
+        const moveHistory = this.state.moveHistory;
+
         this.isMoving = false;
+        const cell = moveHistory.getLatestMove();
 
-        const id = this.lastSelectedCell.id;
-        const row = Number(id.split("|")[0]);
-        const column = Number(id.split("|")[1]);
-
-        if (this.state.moveHistory.isMoveEnd(row, column)) {
+        if (moveHistory.isMoveEnd(cell.row, cell.column)) {
             this.endGame();
         }
     }
