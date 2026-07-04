@@ -2,7 +2,6 @@ A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
 
-* Stylize Logo & Puzzle Date
 * Leaderboard Box Stylization
 * Leaderboard Box Share
 

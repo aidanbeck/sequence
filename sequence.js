@@ -23,7 +23,7 @@ class GameState {
 const state = new GameState(seed);
 const updater = new ElementUpdater(state, operators, score, grid);
 
-title.innerText = `SEQUENCE ${today.toLocaleDateString()}`;
+date.innerText = `${today.toLocaleDateString().replaceAll('/', ' / ')}`;
 
 tutorialStart.addEventListener("click", () => {
     tutorial.classList.add("hidden");
