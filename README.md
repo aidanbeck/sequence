@@ -10,6 +10,7 @@ A daily number puzzle by Aidan & Carter Beck.
 * Handle Errors on Server
 * Adapt to failures on Server
 * Handle content-length on Server
+* Fix puzzle date resetting
 
 
 # Sound Effects
