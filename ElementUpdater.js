@@ -241,13 +241,23 @@ export default class ElementUpdater {
         })
         .then(response => response.json())
         .then(json => {
+            const moveHistory = this.state.moveHistory;
+
             localStorage.setItem("sequence:id", json.id);
             localStorage.setItem("sequence:solveId", json.solveId);
 
             const playerCount = json.totalSolvesToday;
             const place = json.totalBetterSolvesToday + 1;
 
-            leaderboardScore.innerText = `Score = ${score.toLocaleString('en-us')}.`;
+            let movesString = "";
+            for (let move of moveHistory.moves) {
+                movesString += this.state.grid.getCell(move.row, move.column).number;
+                movesString += " ";
+                movesString += move.symbol;
+            }
+
+            leaderboardMoves.innerText = movesString.slice(0, -1);;
+            leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
             solvePlace.innerHTML = `Placed #${place.toLocaleString('en-us')} out of <br> ${playerCount.toLocaleString('en-us')} solvers!`;
             totalTied.innerText = `Tied with ${json.totalTied.toLocaleString('en-us')} solvers.`;
 
