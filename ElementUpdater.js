@@ -227,7 +227,7 @@ export default class ElementUpdater {
 
         const score = this.state.moveHistory.getLatestMove().score;
 
-        fetch("https://aidanbeck.com/api/sequence", {
+        fetch("/api/sequence", {
             method: "POST",
             body: JSON.stringify({
                 id: localStorage.getItem("sequence:id"),
