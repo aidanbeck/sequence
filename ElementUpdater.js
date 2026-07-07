@@ -243,7 +243,7 @@ export default class ElementUpdater {
         totalTied.innerHTML = "&nbsp;";
 
         this.leaderboard(score, date);
-        // this.getShareString(score, place, playerCount);
+        console.log(this.getShareString(score, place, playerCount));
 
         overlay.classList.remove("hidden");
         leaderboard.classList.remove("hidden");
@@ -302,12 +302,24 @@ export default class ElementUpdater {
             if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
             if (i == 2) { resultString += ` #${place.toLocaleString('en-us')} of`; } // needs nd, th, st, etc
             if (i == 3) { resultString += ` ${playerCount.toLocaleString('en-us')} solves.`; }
-            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}🥇`; }
+            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}${this.getShareEmoji(place, playerCount)}`; }
             resultString += "\n";
 
         }
 
         return resultString;
+    }
+
+    getShareEmoji(place, playerCount) {
+        if (place == 1) { return '🥇'; }
+        if (place == 2) { return '🥈'; }
+        if (place == 3) { return '🥉'; }
+        
+        if (place >= 10) { return '🏆'; }
+        if (place > playerCount - 5) { return '💩'; }
+
+        return '⭐';
+
     }
 
 }
