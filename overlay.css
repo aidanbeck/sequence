@@ -61,3 +61,15 @@ li {
 #leaderboard {
     text-align: center;
 }
+
+#shareButton {
+    color: var(--white);
+    background-color: var(--blue);
+    font-weight: 200;
+    font-size: 100%;
+
+
+    /* width: 65%; */
+    padding: 2%;
+    border-radius: 1%;
+}
