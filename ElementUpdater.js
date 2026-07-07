@@ -238,9 +238,6 @@ export default class ElementUpdater {
 
         leaderboardMoves.innerText = movesString.slice(0, -1);;
         leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
-        
-        solvePlace.innerHTML = "…";
-        totalTied.innerHTML = "&nbsp;";
 
         this.leaderboard(score, date);
 
@@ -302,12 +299,13 @@ export default class ElementUpdater {
             }
 
             if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
-            if (i == 2) { resultString += ` #${place.toLocaleString('en-us')} of`; } // needs nd, th, st, etc
-            if (i == 3) { resultString += ` ${playerCount.toLocaleString('en-us')} solves.`; }
-            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}${emoji}`; }
+            if (i == 2) { resultString += ` Placed #${place.toLocaleString('en-us')} out of`; }
+            if (i == 3) { resultString += ` out of`; }
+            if (i == 4) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers`; }
             resultString += "\n";
-
         }
+
+        resultString += `= ${score.toLocaleString('en-us')}${emoji}`;
 
         return resultString;
     }
