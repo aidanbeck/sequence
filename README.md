@@ -4,6 +4,7 @@ A daily number puzzle by Aidan & Carter Beck.
 
 * Leaderboard Box Share
 * Revamp Share String. Emojis, placing, etc
+/* Share needs to store place & playerCount from the api. Then it needs to optionally load it in the shareString. */
 
 * Fix scoreboard resetting at the wrong times.
 * Handle Errors on Server

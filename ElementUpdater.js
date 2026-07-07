@@ -243,7 +243,6 @@ export default class ElementUpdater {
         totalTied.innerHTML = "&nbsp;";
 
         this.leaderboard(score, date);
-        console.log(this.getShareString(score, place, playerCount));
 
         overlay.classList.remove("hidden");
         leaderboard.classList.remove("hidden");
@@ -278,6 +277,8 @@ export default class ElementUpdater {
                 totalTied.innerText = `Tied with ${json.totalTiedSolvesToday.toLocaleString('en-us')} solvers.`;
             }
 
+            console.log(this.getShareString(score, place, playerCount));
+
         });
     }
 
@@ -286,6 +287,7 @@ export default class ElementUpdater {
         const moveHistory = this.state.moveHistory;
         const cells = this.state.grid.cells;
         const date = new Date();
+        const emoji = this.getShareEmoji(place, playerCount);
 
         let resultString = "notebeck.com/sequence\n\n";
 
@@ -302,7 +304,7 @@ export default class ElementUpdater {
             if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
             if (i == 2) { resultString += ` #${place.toLocaleString('en-us')} of`; } // needs nd, th, st, etc
             if (i == 3) { resultString += ` ${playerCount.toLocaleString('en-us')} solves.`; }
-            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}${this.getShareEmoji(place, playerCount)}`; }
+            if (i == 5) { resultString += ` ${score.toLocaleString('en-us')}${emoji}`; }
             resultString += "\n";
 
         }
