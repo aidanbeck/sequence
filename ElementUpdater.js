@@ -10,6 +10,8 @@ export default class ElementUpdater {
         this.lastSelectedCell = null;
         this.update();
 
+        this.shareString = "";
+
         gridElement.addEventListener("pointerdown", this.onPointerDown);
         gridElement.addEventListener("touchstart", this.onPointerDown);
         gridElement.addEventListener("pointerup", this.onPointerUp);
@@ -239,6 +241,9 @@ export default class ElementUpdater {
         leaderboardMoves.innerText = movesString.slice(0, -1);;
         leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
 
+        this.shareString = this.getShareString(score);
+        console.log(this.shareString);
+
         this.leaderboard(score, date);
 
         overlay.classList.remove("hidden");
@@ -275,6 +280,7 @@ export default class ElementUpdater {
             }
 
             console.log(this.getShareString(score, place, playerCount));
+            this.shareString = this.getShareString(score, place, playerCount);
 
         });
     }
@@ -299,9 +305,9 @@ export default class ElementUpdater {
             }
 
             if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
-            if (i == 2) { resultString += ` Placed #${place.toLocaleString('en-us')} out of`; }
-            if (i == 3) { resultString += ` out of`; }
-            if (i == 4) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers`; }
+            if (i == 2 && place) { resultString += ` Placed #${place.toLocaleString('en-us')} out of`; }
+            if (i == 3 && place) { resultString += ` out of`; }
+            if (i == 4 && place) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers`; }
             resultString += "\n";
         }
 
