@@ -225,15 +225,38 @@ export default class ElementUpdater {
 
     endGame() {
 
+        
         const score = this.state.moveHistory.getLatestMove().score;
+        const date = (new Date()).toISOString() // TODO store date in game state
 
+        let movesString = "";
+        for (let move of this.state.moveHistory.moves) {
+            movesString += this.state.grid.getCell(move.row, move.column).number;
+            movesString += " ";
+            movesString += move.symbol;
+        }
+
+        leaderboardMoves.innerText = movesString.slice(0, -1);;
+        leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
+        
+        solvePlace.innerHTML = "…";
+        totalTied.innerHTML = "&nbsp;";
+
+        this.leaderboard(score, date);
+        // this.getShareString(score, place, playerCount);
+
+        overlay.classList.remove("hidden");
+        leaderboard.classList.remove("hidden");
+    }
+
+    leaderboard(score, date) {
         fetch("/api/sequence", {
             method: "POST",
             body: JSON.stringify({
                 id: localStorage.getItem("sequence:id"),
                 score: score,
                 moves: null,
-                date: (new Date()).toISOString() // TODO use game state
+                date: date
             }),
             headers: {
                 "Content-type": "application/json"
@@ -249,23 +272,13 @@ export default class ElementUpdater {
             const playerCount = json.totalSolvesToday;
             const place = json.totalBetterSolvesToday + 1;
 
-            let movesString = "";
-            for (let move of moveHistory.moves) {
-                movesString += this.state.grid.getCell(move.row, move.column).number;
-                movesString += " ";
-                movesString += move.symbol;
+            solvePlace.innerHTML = `Placed #${place.toLocaleString('en-us')} out of <br> ${playerCount.toLocaleString('en-us')} solvers!`;
+            
+            if (json.totalTiedSolvesToday > 0) {
+                totalTied.innerText = `Tied with ${json.totalTiedSolvesToday.toLocaleString('en-us')} solvers.`;
             }
 
-            leaderboardMoves.innerText = movesString.slice(0, -1);;
-            leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
-            solvePlace.innerHTML = `Placed #${place.toLocaleString('en-us')} out of <br> ${playerCount.toLocaleString('en-us')} solvers!`;
-            totalTied.innerText = `Tied with ${json.totalTied.toLocaleString('en-us')} solvers.`;
-
-            // shareString.innerText = this.getShareString(score, place, playerCount);
         });
-
-        overlay.classList.remove("hidden");
-        leaderboard.classList.remove("hidden");
     }
 
     getShareString(score, place, playerCount) {
