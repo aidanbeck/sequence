@@ -2,16 +2,12 @@ A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
 
-* Leaderboard Box Share
-* Revamp Share String. Emojis, placing, etc
-/* Share needs to store place & playerCount from the api. Then it needs to optionally load it in the shareString. */
-
-* Fix scoreboard resetting at the wrong times.
+* Fix puzzle date resetting
 * Handle Errors on Server
 * Adapt to failures on Server
 * Handle content-length on Server
-* Fix puzzle date resetting
 
+* Polish Tutorial & Leaderboard Screens
 * Should tied players occupy multiple places?
     * ie. if 20 players are tied at "=1,000" for 1st, is "=999" 2nd place or 21st place?
 

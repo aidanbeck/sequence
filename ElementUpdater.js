@@ -307,11 +307,11 @@ export default class ElementUpdater {
             if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
             if (i == 2 && place) { resultString += ` Placed #${place.toLocaleString('en-us')} out of`; }
             if (i == 3 && place) { resultString += ` out of`; }
-            if (i == 4 && place) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers`; }
+            if (i == 4 && place) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers!`; }
             resultString += "\n";
         }
 
-        resultString += `= ${score.toLocaleString('en-us')}${emoji}`;
+        resultString += `= ${score.toLocaleString('en-us')} ${emoji}`;
 
         return resultString;
     }
