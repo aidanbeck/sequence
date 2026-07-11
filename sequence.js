@@ -31,10 +31,21 @@ tutorialStart.addEventListener("click", () => {
 })
 
 shareButton.addEventListener("click", () => {
-    // alert(updater.shareString);
-    navigator.clipboard.writeText(updater.shareString);
-    shareButton.innerText = "Copied to Clipboard!";
-})
+    try {
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+            throw Error("Only use navigator.share for mobile users.")
+        }
+        navigator.share({
+            title: "Sequence",
+            text: updater.shareString
+        });
+    }
+    catch {
+        navigator.clipboard.writeText(updater.shareString);
+        shareButton.innerText = "Copied to Clipboard!";
+    }
+});
 
 /*
     This is a band-aid, setting GAME_MOVES to a global variable.
