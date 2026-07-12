@@ -198,6 +198,7 @@ export default class ElementUpdater {
                 td.innerText = cell.number;
                 td.removeAttribute('class');
                 cell.obstructed && td.classList.add("obstructed");
+                this.state.moveHistory.isMoveAdjacent(i, j, this.state.moveHistory.getLatestMove()) && td.classList.add("adjacent");
             }
         }
 

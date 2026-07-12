@@ -3,7 +3,6 @@ A daily number puzzle by Aidan & Carter Beck.
 # Roadmap
 
 * Fix dark mode
-* CSS Cursor prompts
 
 * Handle Errors on Server
 * Adapt to failures on Server

@@ -182,6 +182,10 @@ td {
     white-space: pre;
 }
 
+.adjacent {
+    cursor: pointer;
+}
+
 .obstructed {
     background-color: var(--black);
 }
