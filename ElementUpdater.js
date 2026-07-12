@@ -229,7 +229,7 @@ export default class ElementUpdater {
 
         
         const score = this.state.moveHistory.getLatestMove().score;
-        const date = (new Date()).toISOString() // TODO store date in game state
+        const date = this.state.puzzleDate;
 
         let movesString = "";
         for (let move of this.state.moveHistory.moves) {
@@ -289,10 +289,10 @@ export default class ElementUpdater {
 
         const moveHistory = this.state.moveHistory;
         const cells = this.state.grid.cells;
-        const date = new Date();
+        const date = this.state.puzzleDate;
         const emoji = this.getShareEmoji(place, playerCount);
 
-        let resultString = "notebeck.com/sequence\n\n";
+        let resultString = "notebeck.com/sequence\n";
 
         for (let i = 0; i < cells.length; i++) {
             for (let j = 0; j < cells[i].length; j++) {
@@ -304,7 +304,7 @@ export default class ElementUpdater {
                 resultString += "⬜";
             }
 
-            if (i == 0) { resultString += ` ${date.toLocaleDateString()}`; }
+            if (i == 0) { resultString += ` ${date}`; }
             if (i == 2 && place) { resultString += ` Placed #${place.toLocaleString('en-us')} out of`; }
             if (i == 3 && place) { resultString += ` out of`; }
             if (i == 4 && place) { resultString += ` ${playerCount.toLocaleString('en-us')} solvers!`; }
