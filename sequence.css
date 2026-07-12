@@ -195,12 +195,16 @@ td {
     box-shadow: inset 0 0 50px 4px var(--blue);
     color: var(--blue);
     background-color: var(--white);
+
+    cursor: pointer;
 }
 
 .latestMove {
     font-weight: 800;
     color: var(--white);
     background-color: var(--green);
+
+    cursor: grab;
 }
 
 .start {
@@ -208,6 +212,8 @@ td {
     color: var(--blue);
     background-color: var(--white);
     font-weight: normal;
+
+    /* cursor: pointer; */
 }
 
 .end {
@@ -228,6 +234,10 @@ td {
     background-image: url("greenChecker.bmp");
     font-weight: 800;
     color: var(--white);
+}
+
+.moving * {
+    cursor: grabbing;
 }
 
 /* BOTTOM */

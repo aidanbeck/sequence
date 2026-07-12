@@ -53,7 +53,9 @@ li {
     padding: 10%;
     bottom: 0;
     text-align: center;
-    background-color: rgb(0, 100, 150, 0.5);;
+    background-color: rgb(0, 100, 150, 0.5);
+
+    cursor: pointer;
 }
 
 /* LEADERBOARD */
@@ -72,4 +74,6 @@ li {
     /* width: 65%; */
     padding: 2%;
     border-radius: 1%;
+
+    cursor: pointer;
 }

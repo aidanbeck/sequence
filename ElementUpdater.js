@@ -23,6 +23,8 @@ export default class ElementUpdater {
 
     onPointerDown = (e) => {
         this.isMoving = true;
+        this.gridElement.classList.add("moving");
+
         this.selectCellElement(e.target);
     }
 
@@ -30,6 +32,8 @@ export default class ElementUpdater {
         const moveHistory = this.state.moveHistory;
 
         this.isMoving = false;
+        this.gridElement.classList.remove("moving");
+
         const cell = moveHistory.getLatestMove();
 
         if (moveHistory.isMoveEnd(cell.row, cell.column)) {
