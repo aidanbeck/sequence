@@ -231,10 +231,9 @@ export default class ElementUpdater {
     }
 
     endGame() {
-
-        
         const score = this.state.moveHistory.getLatestMove().score;
         const date = this.state.puzzleDate;
+        const proof = this.getProofString();
 
         let movesString = "";
         for (let move of this.state.moveHistory.moves) {
@@ -243,25 +242,23 @@ export default class ElementUpdater {
             movesString += move.symbol;
         }
 
-        leaderboardMoves.innerText = movesString.slice(0, -1);;
+        leaderboardMoves.innerText = movesString.slice(0, -1);
         leaderboardScore.innerText = `= ${score.toLocaleString('en-us')}`;
 
         this.shareString = this.getShareString(score);
-        console.log(this.shareString);
-
-        this.leaderboard(score, date);
+        this.leaderboard(score, date, proof);
 
         overlay.classList.remove("hidden");
         leaderboard.classList.remove("hidden");
     }
 
-    leaderboard(score, date) {
+    leaderboard(score, date, moves) {
         fetch("/api/sequence", {
             method: "POST",
             body: JSON.stringify({
                 id: localStorage.getItem("sequence:id"),
                 score: score,
-                moves: null,
+                moves: moves,
                 date: date
             }),
             headers: {
@@ -288,6 +285,16 @@ export default class ElementUpdater {
             this.shareString = this.getShareString(score, place, playerCount);
 
         });
+    }
+
+    getProofString() {
+        let proofString = "";
+        for (let move of this.state.moveHistory.moves) {
+            proofString += move.column;
+            proofString += move.row;
+            proofString += ",";
+        }
+        return proofString.slice(0, -1);;
     }
 
     getShareString(score, place, playerCount) {
