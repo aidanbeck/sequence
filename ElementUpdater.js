@@ -294,7 +294,7 @@ export default class ElementUpdater {
 
         const moveHistory = this.state.moveHistory;
         const cells = this.state.grid.cells;
-        const date = this.state.puzzleDate;
+        const date = this.state.localDate;
         const emoji = this.getShareEmoji(place, playerCount);
 
         let resultString = "notebeck.com/sequence\n";
