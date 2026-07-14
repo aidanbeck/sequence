@@ -14,7 +14,7 @@ RANDOMIZE_ON_REFRESH && ( seed = Math.random() * 1000 );
 
 class GameState {
     constructor(seed, operatorsElement, scoreElement, gridElement) {
-        this.puzzleDate = today.toLocaleDateString('en-US');
+        this.utcDate = today.toUTCString();
         this.localDate = today.toLocaleDateString();
 
         this.grid = new Grid(4, 6, 2, seed);

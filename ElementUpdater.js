@@ -232,7 +232,7 @@ export default class ElementUpdater {
 
     endGame() {
         const score = this.state.moveHistory.getLatestMove().score;
-        const date = this.state.puzzleDate;
+        const date = this.state.isoDate;
         const proof = this.getProofString();
 
         let movesString = "";
