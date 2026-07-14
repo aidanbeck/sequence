@@ -281,7 +281,6 @@ export default class ElementUpdater {
                 totalTied.innerText = `Tied with ${json.totalTiedSolvesToday.toLocaleString('en-us')} solvers.`;
             }
 
-            console.log(this.getShareString(score, place, playerCount));
             this.shareString = this.getShareString(score, place, playerCount);
 
         });
