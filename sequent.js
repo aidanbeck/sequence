@@ -40,7 +40,7 @@ shareButton.addEventListener("click", () => {
             throw Error("Only use navigator.share for mobile users.")
         }
         navigator.share({
-            title: "Sequence",
+            title: "Sequent",
             text: updater.shareString
         });
     }
