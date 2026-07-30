@@ -2,15 +2,31 @@ A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
 
-* Fix dark mode
+* Adjust Share String - Don't Reveal Path
+notebeck.com/sequence/
+🟩🔷⚪ = 1,370.42 🏆
+Placed #1 out of 52 solvers!
+7/13/2026
 
+* Give special colors on special numbers. Big: Purple, Negative: Red, Zero: Black.
+* Show Next Operation on Adjacent Tiles
+* Fix dark mode
+* Selection line should be thinner (Not full blocks)
+* Balatro-esque tally up animation and placement reveal
+* Allow players to play past days
+
+* Change name to Sequent
+* Fix scores not showing up (Research)
+* Handle content-length on Server
+* Limit to 3 Attempts
+* Show Highest, Lowest, and Average Score
+* Add a larger grid on Saturday
 * Handle Errors on Server
 * Adapt to failures on Server
-* Handle content-length on Server
 
-* Polish Tutorial & Leaderboard Screens
 * Should tied players occupy multiple places?
     * ie. if 20 players are tied at "=1,000" for 1st, is "=999" 2nd place or 21st place?
+    * How does it work now? I don't even remember :/
 
 # Sound Effects
 
