@@ -299,14 +299,14 @@ export default class ElementUpdater {
         return proofString.slice(0, -1);;
     }
 
-    getShareString(score, place, playerCount) {
+    getShareGrid(score, place, playerCount) {
 
         const moveHistory = this.state.moveHistory;
         const cells = this.state.grid.cells;
         const date = this.state.localDate;
         const emoji = this.getShareEmoji(place, playerCount);
 
-        let resultString = "notebeck.com/sequence\n";
+        let resultString = "notebeck.com/sequent\n";
 
         for (let i = 0; i < cells.length; i++) {
             for (let j = 0; j < cells[i].length; j++) {
@@ -326,6 +326,25 @@ export default class ElementUpdater {
         }
 
         resultString += `= ${score.toLocaleString('en-us')} ${emoji}`;
+
+        return resultString;
+    }
+
+    getShareString(score, place, playerCount) {
+
+        const moveHistory = this.state.moveHistory;
+        const cells = this.state.grid.cells;
+        const date = this.state.localDate;
+        const emoji = this.getShareEmoji(place, playerCount);
+
+        let resultString = `notebeck.com/sequent\n`;
+        resultString += `🟩🔷⚪ = ${score.toLocaleString('en-us')} ${emoji}\n`;
+
+        if (place) {
+            resultString += `Placed #${place.toLocaleString('en-us')} out of ${playerCount.toLocaleString('en-us')} solvers!\n`;
+        }
+
+        resultString += `${date}`;
 
         return resultString;
     }

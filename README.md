@@ -2,12 +2,6 @@ A daily number puzzle by Aidan & Carter Beck.
 
 # Roadmap
 
-* Adjust Share String - Don't Reveal Path
-notebeck.com/sequent/
-🟩🔷⚪ = 1,370.42 🏆
-Placed #1 out of 52 solvers!
-7/13/2026
-
 * Show Next Operation on Adjacent Tiles
 * Fix dark mode
 * Selection line should be thinner (Not full blocks)
