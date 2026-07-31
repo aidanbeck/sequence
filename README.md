@@ -8,14 +8,13 @@ notebeck.com/sequent/
 Placed #1 out of 52 solvers!
 7/13/2026
 
-* Give special colors on special numbers. Big: Purple, Negative: Red, Zero: Black.
 * Show Next Operation on Adjacent Tiles
 * Fix dark mode
 * Selection line should be thinner (Not full blocks)
 * Balatro-esque tally up animation and placement reveal
 * Allow players to play past days
 
-* Change name to Sequent
+* Change repository, url, api, localstorage to Sequent
 * Fix scores not showing up (Research)
 * Handle content-length on Server
 * Limit to 3 Attempts
@@ -23,6 +22,7 @@ Placed #1 out of 52 solvers!
 * Add a larger grid on Saturday
 * Handle Errors on Server
 * Adapt to failures on Server
+* Power Platform Solve Views
 
 * Should tied players occupy multiple places?
     * ie. if 20 players are tied at "=1,000" for 1st, is "=999" 2nd place or 21st place?
